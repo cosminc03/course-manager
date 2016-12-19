@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace CourseManager.Infrastructure
 {
-    public class Class1
+    public class EntryPoint
     {
-        public Class1()
+        public static void Main(string[] argv)
         {
         }
     }

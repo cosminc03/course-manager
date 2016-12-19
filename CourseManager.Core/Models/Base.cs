@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CourseManager.Core
+namespace CourseManager.Core.Models
 {
-    public class Class1
+    public abstract class Base
     {
-        public Class1()
-        {
-        }
+        public Guid Id { get; set; }
     }
 }
