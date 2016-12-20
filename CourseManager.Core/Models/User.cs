@@ -19,9 +19,9 @@ namespace CourseManager.Core.Models
         public string Group { get; set; }
 
         [InverseProperty("Student")]
-        public virtual ICollection<Grade> Grades { get; set; }
+        public virtual List<Grade> Grades { get; set; }
 
         [InverseProperty("User")]
-        public virtual ICollection<Post> Posts { get; set; }
+        public virtual List<Post> Posts { get; set; }
     }
 }

@@ -81,8 +81,6 @@ namespace CourseManager.Infrastructure.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.HasIndex("TeacherId");
-
                     b.ToTable("Grades");
                 });
 
@@ -157,11 +155,6 @@ namespace CourseManager.Infrastructure.Migrations
                     b.HasOne("CourseManager.Core.Models.User", "Student")
                         .WithMany("Grades")
                         .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("CourseManager.Core.Models.User", "Teacher")
-                        .WithMany()
-                        .HasForeignKey("TeacherId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
