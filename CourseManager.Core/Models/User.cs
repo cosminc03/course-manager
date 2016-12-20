@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CourseManager.Core.Models
 {
@@ -17,7 +18,10 @@ namespace CourseManager.Core.Models
         public int CurrentYear { get; set; }
         public string Group { get; set; }
 
+        [InverseProperty("Student")]
         public virtual ICollection<Grade> Grades { get; set; }
+
+        [InverseProperty("User")]
         public virtual ICollection<Post> Posts { get; set; }
     }
 }

@@ -10,10 +10,9 @@ namespace CourseManager.Core.Models
         public DateTime UpdatedAt { get; set; }
 
         public Guid StudentId { get; set; }
-        [ForeignKey("StudentId")]
         public virtual User Student { get; set; }
+
         public Guid TeacherId { get; set; }
-        [ForeignKey("TeacherId")]
         public virtual User Teacher { get; set; }
     }
 }

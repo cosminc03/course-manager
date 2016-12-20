@@ -17,6 +17,7 @@ namespace CourseManager.Core.Models
         public DateTime UpdatedAt { get; set; }
         public virtual User User { get; set; }
         public virtual Post Parent { get; set; }
+
         public virtual ICollection<Post> Comments { get; set; }
         
     }
