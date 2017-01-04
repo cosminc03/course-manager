@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CourseManager.Core.Models
 {
@@ -13,6 +9,6 @@ namespace CourseManager.Core.Models
         public string FileExtension { get; set; }
         public int FileSize { get; set; }
         public string FilePath { get; set; }
-        public virtual User Owner { get; set; }
+        public virtual Student Owner { get; set; }
     }
 }

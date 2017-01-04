@@ -5,7 +5,8 @@ namespace CourseManager.Infrastructure
 {
     public class DbManager : DbContext
     {
-        public DbSet<User> Users { get; set; }
+        public DbSet<Student> Students { get; set; }
+        public DbSet<Employee> Employees { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<File> Files { get; set; }
         public DbSet<Grade> Grades { get; set; }

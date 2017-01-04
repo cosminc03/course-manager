@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CourseManager.Core.Repositories.Interfaces
 {
-    public class IRepository
+    public interface IRepository<T>
     {
+        T Create(T obj);
+        void Update(T obj);
+        void Delete(T obj);
+        T FindById(Guid id);
+        IEnumerable<T> FindAll();
     }
 }

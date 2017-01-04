@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace CourseManager.Core.Repositories.Interfaces
+﻿namespace CourseManager.Core.Repositories.Interfaces
 {
-    public class IPostRepository
+    public interface IPostRepository
     {
     }
 }

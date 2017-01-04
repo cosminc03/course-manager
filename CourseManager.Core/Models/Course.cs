@@ -9,13 +9,14 @@ namespace CourseManager.Core.Models
     {
         public Course()
         {
-            this.Students = new HashSet<User>();
+            this.Students = new HashSet<Student>();
         }
         public string Title { get; set; }
         public int Year { get; set; }
         public int Semester { get; set; }
         public string Description { get; set; }
-        public virtual User Owner { get; set; }
-        public virtual ICollection<User> Students { get; set; }
+
+        public virtual Employee Owner { get; set; }
+        public virtual ICollection<Student> Students { get; set; }
     }
 }
