@@ -6,9 +6,9 @@ using CourseManager.Core.Models;
 using CourseManager.Core.Repositories.Interfaces;
 namespace CourseManager.Infrastructure.Repositories
 {
-    public class UserRepository : Repository<Student>, IUserRepository
+    public class StudentRepository : Repository<Student>, IStudentRepository
     {
-        public UserRepository(DbManager platformManagement) : base(platformManagement)
+        public StudentRepository(DbManager platformManagement) : base(platformManagement)
         {
         }
     }
