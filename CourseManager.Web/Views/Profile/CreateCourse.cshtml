@@ -1,0 +1,26 @@
+﻿@model CourseManager.Core.Models.Course
+<div>
+    @ViewBag.Message
+</div>
+
+@using (Html.BeginForm("CreatedCourse", "Profile", FormMethod.Post))
+{
+    <fieldset style="width:300px">
+        <legend>Create Course</legend>
+        <table>
+            <tr>
+                <td>@Html.Label("Enter a name ")</td>
+            </tr>
+            <tr>
+                <td> @Html.TextBoxFor(obj=> obj.Title)</td>
+            </tr>
+
+            <tr>
+                <td> <input type="submit" id="submitbutton" value="Submit" /></td>
+            </tr>
+
+        </table>
+    </fieldset>
+}
+
+

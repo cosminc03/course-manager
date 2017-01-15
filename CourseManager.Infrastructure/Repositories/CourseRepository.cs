@@ -11,5 +11,13 @@ namespace CourseManager.Infrastructure.Repositories
         public CourseRepository(DbManager platformManagement) : base(platformManagement)
         {
         }
+
+        public Course FindByTitle(String title)
+        {
+            var queryResult = from elem in Context.Set<Course>()
+                              where elem.Title == title
+                              select elem;
+            return queryResult.FirstOrDefault();
+        }
     }
 }
