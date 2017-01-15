@@ -8,13 +8,13 @@ using CourseManager.Infrastructure;
 namespace CourseManager.Infrastructure.Migrations
 {
     [DbContext(typeof(DbManager))]
-    [Migration("20170104212523_InitialMigration")]
+    [Migration("20170111164424_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.0.1")
+                .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("CourseManager.Core.Models.Course", b =>

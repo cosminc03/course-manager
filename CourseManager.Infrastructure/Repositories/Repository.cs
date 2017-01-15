@@ -49,5 +49,7 @@ namespace CourseManager.Infrastructure.Repositories
                               select elem;
             return queryResult;
         }
+
+       
     }
 }
