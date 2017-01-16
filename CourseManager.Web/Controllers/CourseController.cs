@@ -33,6 +33,7 @@ namespace CourseManager.Web.Controllers
         //
         // POST: /Course/Create
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(CreateViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
@@ -54,12 +55,39 @@ namespace CourseManager.Web.Controllers
             return View(model);
         }
 
-        //
-        // POST: /Course/{id}/Edit
-        public IActionResult Edit()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(CreateViewModel model)
         {
-            // return View(model);
-            return View();  
+            if (ModelState.IsValid)
+            {
+                Course course = new Course
+                {
+                    Id = new System.Guid(),
+                    Title = model.Title,
+                    Description = model.Description,
+                    Semester = model.Semester,
+                };
+                _courseService.UpdateCourse(course);
+                //return RedirectToAction("Index");
+            }
+            return View(model);
+        }
+
+        //
+        // POST: /Course/Edit/{id}
+        public IActionResult Edit(Guid id)
+        {
+            Course course = _courseService.GetCourseById(id);
+            CreateViewModel model = new CreateViewModel
+            {
+                Description = course.Description,
+                Title = course.Title,
+                Semester = course.Semester,
+                Year = course.Year
+            };
+
+            return View(model);
         }
 
         //
