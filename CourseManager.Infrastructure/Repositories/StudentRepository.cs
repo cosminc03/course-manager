@@ -8,7 +8,7 @@ namespace CourseManager.Infrastructure.Repositories
 {
     public class StudentRepository : Repository<Student>, IStudentRepository
     {
-        public StudentRepository(DbManager platformManagement) : base(platformManagement)
+        public StudentRepository(DbManager dbManager) : base(dbManager)
         {
         }
     }

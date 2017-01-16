@@ -35,5 +35,9 @@ namespace CourseManager.Web.Models.AccountViewModels
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}",
+               ApplyFormatInEditMode = true)]
+        public DateTime DateOfBirth { get; set; }
     }
 }

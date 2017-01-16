@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using CourseManager.Core.Models;
+using CourseManager.Core.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -22,19 +24,22 @@ namespace CourseManager.Web.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
+        private readonly IStudentRepository _studentRepository;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
             ISmsSender smsSender,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory,
+            IStudentRepository studentRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
+            _studentRepository = studentRepository;
         }
 
         //
@@ -43,6 +48,9 @@ namespace CourseManager.Web.Controllers
         [AllowAnonymous]
         public IActionResult Login(string returnUrl = null)
         {
+            if(_signInManager.IsSignedIn(User))
+                return RedirectToLocal(returnUrl);
+
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
@@ -54,6 +62,9 @@ namespace CourseManager.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
+            if (_signInManager.IsSignedIn(User))
+                return RedirectToLocal(returnUrl);
+
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
@@ -91,6 +102,9 @@ namespace CourseManager.Web.Controllers
         [AllowAnonymous]
         public IActionResult Register(string returnUrl = null)
         {
+            if (_signInManager.IsSignedIn(User))
+                return RedirectToLocal(returnUrl);
+
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
@@ -102,13 +116,23 @@ namespace CourseManager.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
+            if (_signInManager.IsSignedIn(User))
+                return RedirectToLocal(returnUrl);
+
             ViewData["ReturnUrl"] = returnUrl;
             
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-
+                var facUser = new Student
+                {
+                    BaseId = new Guid(user.Id),
+                    DateOfBirth = model.DateOfBirth,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName
+                };
                 var result = await _userManager.CreateAsync(user, model.Password);
+
                 if (result.Succeeded)
                 {
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
@@ -117,6 +141,8 @@ namespace CourseManager.Web.Controllers
                     //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
                     //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
                     //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
+                    _studentRepository.Create(facUser);
+
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User created a new account with password.");
                     

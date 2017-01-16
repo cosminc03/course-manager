@@ -9,35 +9,35 @@ namespace CourseManager.Infrastructure.Repositories
     public abstract class Repository<T> : IRepository<T>
         where T : Base
     {
-        protected readonly DbManager Context;
+        protected readonly DbManager _dbManager;
 
-        protected Repository(DbManager dbMang)
+        protected Repository(DbManager dbManager)
         {
-            Context = dbMang;
+            _dbManager = dbManager;
         }
 
         public T Create(T p)
         {
-            Context.Add(p);
-            Context.SaveChanges();
+            _dbManager.Add(p);
+            _dbManager.SaveChanges();
             return p;
         }
 
         public void Update(T p)
         {
-            Context.Update(p);
-            Context.SaveChanges();
+            _dbManager.Update(p);
+            _dbManager.SaveChanges();
         }
 
         public void Delete(T p)
         {
-            Context.Remove(p);
-            Context.SaveChanges();
+            _dbManager.Remove(p);
+            _dbManager.SaveChanges();
         }
 
         public T FindById(Guid id)
         {
-            var queryResult = from elem in Context.Set<T>()
+            var queryResult = from elem in _dbManager.Set<T>()
                               where elem.Id == id
                               select elem;
             return queryResult.FirstOrDefault();
@@ -45,7 +45,7 @@ namespace CourseManager.Infrastructure.Repositories
 
         public IEnumerable<T> FindAll()
         {
-            var queryResult = from elem in Context.Set<T>()
+            var queryResult = from elem in _dbManager.Set<T>()
                               select elem;
             return queryResult;
         }
