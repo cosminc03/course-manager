@@ -1,23 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace CourseManager.Core.Models
 {
     public class Post : Base
     {
-        public Post()
-        {
-            this.Comments = new HashSet<Post>();
-        }
+        [Required]
+        [StringLength(256)]
         public string Title { get; set; }
+
+        [Required]
         public string Content { get; set; }
+
+        [Required]
         public DateTime CreatedAt { get; set; }
+
         public DateTime UpdatedAt { get; set; }
     
         public virtual Employee Teacher{ get; set; }
 
-        public virtual Post Parent { get; set; }
-        public virtual ICollection<Post> Comments { get; set; }
-        
+        public virtual Course Course { get; set; }
     }
 }
