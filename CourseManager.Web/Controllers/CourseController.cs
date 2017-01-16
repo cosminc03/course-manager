@@ -17,6 +17,7 @@ namespace CourseManager.Web.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.ListOfCourses = _courseService.GetAllCourses();
             return View();
         }
         
@@ -62,12 +63,31 @@ namespace CourseManager.Web.Controllers
         }
 
         //
-        // DELETE: /Course/Delete
-        [HttpDelete]
-        public void Delete(Guid id)
+        // DELETE: /Course/Delete/{id}
+        [HttpGet]
+        public IActionResult Delete(Guid id)
         {
             Course course = _courseService.GetCourseById(id);
+            CreateViewModel model = new CreateViewModel
+            {
+                Description = course.Description,
+                Title = course.Title,
+                Semester = course.Semester,
+                Year = course.Year
+            };
+
+            return View(model);
+        }
+
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(Guid id)
+        {
+
+            Course course = _courseService.GetCourseById(id);
             _courseService.DeleteCourse(course);
+            return RedirectToAction("Index");
         }
     }
 }

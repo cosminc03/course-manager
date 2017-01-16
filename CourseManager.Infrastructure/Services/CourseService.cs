@@ -23,7 +23,7 @@ namespace CourseManager.Infrastructure.Services
 
         public void DeleteCourse(Course course)
         {
-            throw new NotImplementedException();
+            _courseRepository.Delete(course);
         }
 
         public IEnumerable<string> GetAllCourseNames()
@@ -33,7 +33,7 @@ namespace CourseManager.Infrastructure.Services
 
         public IEnumerable<Course> GetAllCourses()
         {
-            throw new NotImplementedException();
+            return _courseRepository.FindAll();
         }
 
         public Course GetCourseById(Guid guid)
