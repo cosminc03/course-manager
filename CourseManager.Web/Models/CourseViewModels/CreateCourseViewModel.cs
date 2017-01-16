@@ -2,7 +2,7 @@
 
 namespace CourseManager.Web.Models.CourseViewModels
 {
-    public class CreateViewModel
+    public class CreateCourseViewModel
     {
         [Required]
         public string Title { get; set; }

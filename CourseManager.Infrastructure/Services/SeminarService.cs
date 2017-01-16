@@ -4,44 +4,46 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CourseManager.Core.Models;
+using CourseManager.Core.Repositories.Interfaces;
 
 namespace CourseManager.Infrastructure.Services
 {
     public class SeminarService : ISeminarService
     {
-        private readonly ISeminarService _seminarRepository;
-        public SeminarService(ISeminarService seminarRepository)
+        private readonly ISeminarRepository _seminarRepository;
+        public SeminarService(ISeminarRepository seminarRepository)
         {
             _seminarRepository = seminarRepository;
         }
         public void CreateSeminar(Seminar laboratory)
         {
-            _seminarRepository.CreateSeminar(laboratory);
+            _seminarRepository.Create(laboratory);
         }
 
         public void DeleteSeminar(Seminar laboratory)
         {
-            _seminarRepository.DeleteSeminar(laboratory);
+            _seminarRepository.Delete(laboratory);
         }
 
         public IEnumerable<Seminar> GetAllSeminaries()
         {
-            return _seminarRepository.GetAllSeminaries();
+            return _seminarRepository.FindAll();
         }
 
-        public IEnumerable<string> GetAllSeminariesNames()
+        /*
+         * public IEnumerable<string> GetAllSeminariesNames()
         {
-            return _seminarRepository.GetAllSeminariesNames();
-        }
+            return _seminarRepository
+        }*/
 
         public Seminar GetSeminarById(Guid guid)
         {
-            return _seminarRepository.GetSeminarById(guid);
+            return _seminarRepository.FindById(guid);
         }
 
         public void UpdateSeminar(Seminar laboratory)
         {
-            _seminarRepository.UpdateSeminar(laboratory); 
+            _seminarRepository.Update(laboratory); 
         }
     }
 }

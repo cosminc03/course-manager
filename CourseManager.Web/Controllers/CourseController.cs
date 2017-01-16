@@ -36,7 +36,7 @@ namespace CourseManager.Web.Controllers
         // POST: /Course/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(CreateViewModel model, string returnUrl = null)
+        public IActionResult Create(CreateCourseViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
@@ -50,7 +50,6 @@ namespace CourseManager.Web.Controllers
                 };
                 _courseService.CreateCourse(course);
 
-                //
                 return View(model);
             }
 
@@ -61,7 +60,7 @@ namespace CourseManager.Web.Controllers
         public IActionResult Edit(Guid id)
         {
             Course course = _courseService.GetCourseById(id);
-            CreateViewModel model = new CreateViewModel
+            CreateCourseViewModel model = new CreateCourseViewModel
             {
                 Description = course.Description,
                 Title = course.Title,
@@ -76,7 +75,7 @@ namespace CourseManager.Web.Controllers
         // POST: /Course/Edit/{id}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(CreateViewModel model)
+        public ActionResult Edit(CreateCourseViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -99,7 +98,7 @@ namespace CourseManager.Web.Controllers
         public IActionResult Delete(Guid id)
         {
             Course course = _courseService.GetCourseById(id);
-            CreateViewModel model = new CreateViewModel
+            CreateCourseViewModel model = new CreateCourseViewModel
             {
                 Description = course.Description,
                 Title = course.Title,
