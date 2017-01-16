@@ -5,11 +5,6 @@ namespace CourseManager.Core.Models
 {
     public class Course : Base
     {
-        public Course()
-        {
-            this.Students = new HashSet<Student>();
-        }
-
         [Required]
         [StringLength(256)]
         public string Title { get; set; }
@@ -21,12 +16,12 @@ namespace CourseManager.Core.Models
         [Required]
         [Range(1,2)]
         public int Semester { get; set; }
-
+  
         [StringLength(512)]
         public string Description { get; set; }
 
         public virtual Employee Owner { get; set; }
-
-        public virtual ICollection<Student> Students { get; set; }
+        public virtual ICollection<StudentCourse> StudentCourses { get; set; } = new HashSet<StudentCourse>();
+        public virtual ICollection<CourseEmployee> CourseEmployees { get; set; } = new HashSet<CourseEmployee>();
     }
 }

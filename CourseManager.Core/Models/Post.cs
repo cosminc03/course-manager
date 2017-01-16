@@ -18,8 +18,7 @@ namespace CourseManager.Core.Models
 
         public DateTime UpdatedAt { get; set; }
     
-        public virtual Employee Teacher{ get; set; }
-
+        public virtual Employee Owner { get; set; }
         public virtual Course Course { get; set; }
     }
 }

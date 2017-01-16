@@ -15,12 +15,8 @@ namespace CourseManager.Core.Models
 
         public DateTime UpdatedAt { get; set; }
 
-        //public Guid StudentId { get; set; }
         public virtual Student Student { get; set; }
-        
-        //public Guid TeacherId { get; set; }
         public virtual Employee Teacher { get; set; }
-
         public virtual Course Course { get; set; }
     }
 }

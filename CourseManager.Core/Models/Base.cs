@@ -5,8 +5,8 @@ namespace CourseManager.Core.Models
 {
     public abstract class Base
     {
-        [Required]
         [Key]
+        [Required]
         public Guid Id { get; set; }
     }
 }

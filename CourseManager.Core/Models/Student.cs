@@ -1,17 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CourseManager.Core.Models
 {
-    public class Student : BaseUser
+    public class Student : Base
     {
-        public Student()
-        {
-            this.Grades = new HashSet<Grade>();
-            this.Courses = new HashSet<Course>();
-        }
+        [Required]
+        public Guid BaseId { get; set; }
+
+        [Required]
+        [StringLength(256)]
+        public string FirstName { get; set; }
+
+        [Required]
+        [StringLength(256)]
+        public string LastName { get; set; }
+
+        [Required]
+        public DateTime DateOfBirth { get; set; }
 
         [Required]
         [Range(1,3)]
@@ -20,8 +27,7 @@ namespace CourseManager.Core.Models
         [Required]
         public string Group { get; set; }
 
-        public virtual ICollection<Grade> Grades { get; set; }
-
-        public virtual ICollection<Course> Courses { get; set; }
+        public virtual ICollection<Grade> Grades { get; set; } = new HashSet<Grade>();
+        public virtual ICollection<StudentCourse> StudentCourses { get; set; } = new HashSet<StudentCourse>();
     }
 }
