@@ -15,6 +15,8 @@ using Microsoft.Extensions.Logging;
 using CourseManager.Web.Data;
 using CourseManager.Web.Models;
 using CourseManager.Web.Services;
+using CourseManager.Core.Services.Interfaces;
+using CourseManager.Infrastructure.Services;
 
 namespace CourseManager.Web
 {
@@ -64,6 +66,8 @@ namespace CourseManager.Web
             //My injected repos
             services.AddDbContext<DbManager>();
             services.AddTransient<IStudentRepository, StudentRepository>();
+            services.AddTransient<ICourseRepository, CourseRepository>();
+            services.AddTransient<ICourseService, CourseService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

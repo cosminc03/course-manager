@@ -28,6 +28,7 @@
     "netcoreapp1.1": {}
   },
   "runtimes": {
-    "win10-x64": {}
+    "win10-x64": {},
+    "win81-x64":  {}
   }
 }
