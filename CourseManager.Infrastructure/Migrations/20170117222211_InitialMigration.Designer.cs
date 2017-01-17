@@ -8,7 +8,7 @@ using CourseManager.Infrastructure;
 namespace CourseManager.Infrastructure.Migrations
 {
     [DbContext(typeof(DbManager))]
-    [Migration("20170116220237_InitialMigration")]
+    [Migration("20170117222211_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
