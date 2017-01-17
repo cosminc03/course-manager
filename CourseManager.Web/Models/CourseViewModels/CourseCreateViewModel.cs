@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace CourseManager.Web.Models.CourseViewModels
 {
-    public class CreateViewModel
+    public class CourseCreateViewModel
     {
         [Required]
         public string Title { get; set; }
@@ -13,5 +14,7 @@ namespace CourseManager.Web.Models.CourseViewModels
 
         [Required]
         public string Description { get; set; }
+
+        public Guid Id { get; set; }
     }
 }

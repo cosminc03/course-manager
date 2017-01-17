@@ -43,7 +43,7 @@ namespace CourseManager.Infrastructure.Services
 
         public void UpdateCourse(Course course)
         {
-            throw new NotImplementedException();
+            _courseRepository.Update(course);
         }
     }
 }

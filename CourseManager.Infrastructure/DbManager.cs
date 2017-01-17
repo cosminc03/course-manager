@@ -13,6 +13,7 @@ namespace CourseManager.Infrastructure
         public DbSet<Post> Posts { get; set; }
         public DbSet<Seminar> Seminaries { get; set; }
 
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             string connectionString = "Server=(localdb)\\mssqllocaldb;Database=CourseManager;Trusted_Connection=True;MultipleActiveResultSets=true";

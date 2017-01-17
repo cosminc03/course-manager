@@ -10,7 +10,7 @@ namespace CourseManager.Core.Services.Interfaces
     {
 
         IEnumerable<Seminar> GetAllSeminaries();
-        IEnumerable<string> GetAllSeminariesNames();
+        //IEnumerable<string> GetAllSeminariesNames();
         Seminar GetSeminarById(Guid guid);
         void CreateSeminar(Seminar laboratory);
         void UpdateSeminar(Seminar laboratory);
