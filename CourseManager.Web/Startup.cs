@@ -75,7 +75,8 @@ namespace CourseManager.Web
             services.AddTransient<IPostRepository, PostRepository>();
             services.AddTransient<IEmployeeService, EmployeeService>();
             services.AddTransient<IEmployeeRepository, EmployeeRepository>();
-
+            services.AddTransient<IStudentService, StudentService>();
+            services.AddTransient<IStudentRepository, StudentRepository>();
 
         }
 
