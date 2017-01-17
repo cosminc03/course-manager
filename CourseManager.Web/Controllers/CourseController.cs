@@ -23,8 +23,10 @@ namespace CourseManager.Web.Controllers
             return View();
         }
 
+        [HttpGet]
         public IActionResult Show(Guid id)
         {
+            ViewBag.Course = _courseService.GetCourseById(id);
 
             return View();
         }
@@ -64,6 +66,8 @@ namespace CourseManager.Web.Controllers
             return View(model);
         }
 
+        //
+        // GET: /Course/Edit/{id
         [HttpGet]
         public IActionResult Edit(Guid id)
         {

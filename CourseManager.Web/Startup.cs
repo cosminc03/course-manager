@@ -106,9 +106,9 @@ namespace CourseManager.Web
 
             app.UseMvc(routes =>
             {
-                routes.MapRoute(
+                routes.MapRoute(    
                     name: "default",
-                    template: "{controller=Account}/{action=Login}");
+                    template: "{controller=Account}/{action=Login}/{id?}");
             });
 
             // My Configure
