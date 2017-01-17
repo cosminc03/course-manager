@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using CourseManager.Web.Models;
 using CourseManager.Web.Models.AccountViewModels;
 using CourseManager.Web.Services;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace CourseManager.Web.Controllers
 {
@@ -21,6 +22,7 @@ namespace CourseManager.Web.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
@@ -29,6 +31,7 @@ namespace CourseManager.Web.Controllers
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
+            RoleManager<IdentityRole> roleManager,
             IEmailSender emailSender,
             ISmsSender smsSender,
             ILoggerFactory loggerFactory,
@@ -36,6 +39,7 @@ namespace CourseManager.Web.Controllers
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
@@ -105,6 +109,7 @@ namespace CourseManager.Web.Controllers
             if (_signInManager.IsSignedIn(User))
                 return RedirectToLocal(returnUrl);
 
+            ViewBag.UserRoles = new SelectList(_roleManager.Roles.ToList(), "Name", "Name") ;
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
@@ -129,11 +134,16 @@ namespace CourseManager.Web.Controllers
                     BaseId = new Guid(user.Id),
                     DateOfBirth = model.DateOfBirth,
                     FirstName = model.FirstName,
-                    LastName = model.LastName
-                };
-                var result = await _userManager.CreateAsync(user, model.Password);
+                    LastName = model.LastName,
 
-                if (result.Succeeded)
+                    CurrentYear = 1,
+                    Group = "A1"
+                };
+
+                var createUserResult = await _userManager.CreateAsync(user, model.Password);
+                var addRoleResult = await _userManager.AddToRoleAsync(user, model.Role.ToString());
+
+                if (createUserResult.Succeeded && addRoleResult.Succeeded)
                 {
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
                     // Send an email with this link
@@ -142,13 +152,16 @@ namespace CourseManager.Web.Controllers
                     //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
                     //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
                     _studentRepository.Create(facUser);
-
+                    
                     await _signInManager.SignInAsync(user, isPersistent: false);
+
                     _logger.LogInformation(3, "User created a new account with password.");
                     
                     return RedirectToLocal(returnUrl);
                 }
-                AddErrors(result);
+
+                AddErrors(createUserResult);
+                AddErrors(addRoleResult);
             }
 
             // If we got this far, something failed, redisplay form

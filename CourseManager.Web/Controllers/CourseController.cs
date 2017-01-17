@@ -3,6 +3,7 @@ using CourseManager.Web.Models.CourseViewModels;
 using CourseManager.Core.Models;
 using CourseManager.Core.Services.Interfaces;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CourseManager.Web.Controllers
 {
@@ -24,6 +25,7 @@ namespace CourseManager.Web.Controllers
         //
         // GET: /Course/Create
         [HttpGet]
+        [Authorize(Roles = "Employee")]
         public IActionResult Create(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;

@@ -17,6 +17,7 @@ using CourseManager.Web.Models;
 using CourseManager.Web.Services;
 using CourseManager.Core.Services.Interfaces;
 using CourseManager.Infrastructure.Services;
+using Microsoft.AspNetCore.Identity;
 
 namespace CourseManager.Web
 {
@@ -70,9 +71,6 @@ namespace CourseManager.Web
             services.AddTransient<ICourseService, CourseService>();
             services.AddTransient<ISeminarRepository, SeminarRepository>();
             services.AddTransient<ISeminarService, SeminarService>();
-
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -108,6 +106,20 @@ namespace CourseManager.Web
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            // My Configure
+            var dbContext = app.ApplicationServices.GetService<ApplicationDbContext>();
+            var roleManager = app.ApplicationServices.GetService<RoleManager<IdentityRole>>();
+            DatabaseSeed(dbContext, roleManager);
+        }
+
+        private static async void DatabaseSeed(ApplicationDbContext dbContext, RoleManager<IdentityRole> roleManager)
+        {
+            var studentRole = new IdentityRole { Name = "Student"};
+            var employeeRole = new IdentityRole { Name = "Employee"};
+
+            await roleManager.CreateAsync(studentRole);
+            await roleManager.CreateAsync(employeeRole);
         }
     }
 }

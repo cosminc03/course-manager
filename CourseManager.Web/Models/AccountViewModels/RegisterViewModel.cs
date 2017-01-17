@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CourseManager.Web.Models.AccountViewModels
 {
@@ -39,5 +40,7 @@ namespace CourseManager.Web.Models.AccountViewModels
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}",
                ApplyFormatInEditMode = true)]
         public DateTime DateOfBirth { get; set; }
+
+        public string Role { get; set; }
     }
 }
