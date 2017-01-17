@@ -21,7 +21,8 @@ namespace CourseManager.Web.Controllers
         }
 
         public IActionResult Index()
-        {   
+        {
+            ViewBag.ListOfPosts = _postService.GetAllPosts();
             return View();
         }
 
@@ -59,5 +60,73 @@ namespace CourseManager.Web.Controllers
 
             return View(model);
         }
+
+        [HttpGet]
+        public IActionResult Edit(Guid id)
+        {
+            Post post = _postService.GetPostsById(id);
+            PostCreateViewModel model = new PostCreateViewModel
+            {
+                Id = id,
+                Content = post.Content,
+                Title = post.Title,
+                CreatedAt = post.CreatedAt,
+                UpdatedAt = post.UpdatedAt
+            };
+
+            return View(model);
+        }
+
+        //
+        // POST: /Course/Edit/{id}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(PostCreateViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Post post= new Post
+                {
+                    Id = model.Id,
+                    Title = model.Title,
+                    Content = model.Content,
+                    UpdatedAt = model.UpdatedAt,
+                    
+                };
+                _postService.UpdatePost(post);
+                //return RedirectToAction("Index");
+            }
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult Delete(Guid id)
+        {
+            Post post = _postService.GetPostsById(id);
+            PostCreateViewModel model = new PostCreateViewModel
+            {
+                CreatedAt = post.CreatedAt,
+                Title = post.Title,
+                UpdatedAt = post.UpdatedAt,
+                Content = post.Content
+            };
+
+            return View(model);
+        }
+
+
+        //
+        // POST: /Course/Delete/{id}
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(Guid id)
+        {
+
+            Post post = _postService.GetPostsById(id);
+            _postService.DeletePost(post);
+
+            return RedirectToAction("Index");
+        }
+
     }
 }

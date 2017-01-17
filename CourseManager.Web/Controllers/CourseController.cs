@@ -110,7 +110,6 @@ namespace CourseManager.Web.Controllers
             return View(model);
         }
 
-
         //
         // POST: /Course/Delete/{id}
         [HttpPost, ActionName("Delete")]

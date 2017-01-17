@@ -1,1 +1,6 @@
-﻿
+﻿@foreach (var item in ViewBag.ListOfPosts)
+{
+    <li>
+        @item.Title
+    </li>
+}
