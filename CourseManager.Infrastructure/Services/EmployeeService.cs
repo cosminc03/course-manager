@@ -8,7 +8,7 @@ using CourseManager.Core.Repositories.Interfaces;
 
 namespace CourseManager.Infrastructure.Services
 {
-    public class EmployeeService : IEmpoyeeService
+    public class EmployeeService : IEmployeeService
     {
         private readonly IEmployeeRepository _employeeRepository;
 

@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using CourseManager.Core.Models;
 using CourseManager.Core.Repositories.Interfaces;
+using CourseManager.Core.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -26,7 +27,9 @@ namespace CourseManager.Web.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
-        private readonly IStudentRepository _studentRepository;
+
+        private readonly IStudentService _studentService;
+        private readonly IEmployeeService _employeeService;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -35,7 +38,8 @@ namespace CourseManager.Web.Controllers
             IEmailSender emailSender,
             ISmsSender smsSender,
             ILoggerFactory loggerFactory,
-            IStudentRepository studentRepository)
+            IStudentService studentService,
+            IEmployeeService employeeService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -43,7 +47,8 @@ namespace CourseManager.Web.Controllers
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
-            _studentRepository = studentRepository;
+            _studentService = studentService;
+            _employeeService = employeeService;
         }
 
         //
@@ -146,18 +151,33 @@ namespace CourseManager.Web.Controllers
                     //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
                     //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
                     //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
-                    var facUser = new Student
+                    if (_userManager.GetRolesAsync(user).Result.Contains("Student"))
                     {
-                        BaseId = new Guid(user.Id),
-                        DateOfBirth = model.DateOfBirth,
-                        FirstName = model.FirstName,
-                        LastName = model.LastName,
+                        var facUser = new Student
+                        {
+                            BaseId = new Guid(user.Id),
+                            DateOfBirth = model.DateOfBirth,
+                            FirstName = model.FirstName,
+                            LastName = model.LastName,
+                            CurrentYear = model.Year,
+                            Group = model.Group
+                        };
 
-                        CurrentYear = 1,
-                        Group = "A1"
-                    };
+                        _studentService.CreateStudent(facUser);
+                    }
+                    else
+                    {
+                        var empUser = new Employee()
+                        {
+                            BaseId = new Guid(user.Id),
+                            DateOfBirth = model.DateOfBirth,
+                            FirstName = model.FirstName,
+                            LastName = model.LastName
+                        };
 
-                    _studentRepository.Create(facUser);
+                        _employeeService.CreateEmployee(empUser);
+                    }
+                    
                     
                     await _signInManager.SignInAsync(user, isPersistent: false);
 

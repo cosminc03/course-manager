@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CourseManager.Core.Services.Interfaces
 {
-    public interface IEmpoyeeService
+    public interface IEmployeeService
     {
         IEnumerable<Employee> GetAllEmployees();
         IEnumerable<string> GetAllEmployeesNames();

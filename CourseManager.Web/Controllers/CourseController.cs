@@ -19,6 +19,7 @@ namespace CourseManager.Web.Controllers
         public IActionResult Index()
         {
             ViewBag.ListOfCourses = _courseService.GetAllCourses();
+
             return View();
         }
         
@@ -39,15 +40,16 @@ namespace CourseManager.Web.Controllers
         public IActionResult Create(CourseCreateViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
+
             if (ModelState.IsValid)
             {
                 Course course = new Course
                 {
-                    Id = new System.Guid(),
                     Title = model.Title,
                     Description = model.Description,
                     Semester = model.Semester,
                 };
+
                 _courseService.CreateCourse(course);
 
                 return View(model);
@@ -59,8 +61,11 @@ namespace CourseManager.Web.Controllers
         [HttpGet]
         public IActionResult Edit(Guid id)
         {
-            Course course = _courseService.GetCourseById(id);
-            CourseCreateViewModel model = new CourseCreateViewModel
+            var course = _courseService.GetCourseById(id);
+
+            if (course == null) return RedirectToAction("Index");
+
+            var model = new CourseCreateViewModel
             {
                 Id = id,
                 Description = course.Description,

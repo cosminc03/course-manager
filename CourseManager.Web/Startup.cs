@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CourseManager.Core.Repositories.Interfaces;
+﻿using CourseManager.Core.Repositories.Interfaces;
 using CourseManager.Infrastructure;
 using CourseManager.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
@@ -66,13 +62,14 @@ namespace CourseManager.Web
 
             //My injected repos
             services.AddDbContext<DbManager>();
-            services.AddTransient<IStudentRepository, StudentRepository>();
+            
             services.AddTransient<ICourseRepository, CourseRepository>();
             services.AddTransient<ICourseService, CourseService>();
             services.AddTransient<ISeminarRepository, SeminarRepository>();
             services.AddTransient<ISeminarService, SeminarService>();
             services.AddTransient<IPostService, PostService>();
             services.AddTransient<IPostRepository, PostRepository>();
+
             services.AddTransient<IEmployeeService, EmployeeService>();
             services.AddTransient<IEmployeeRepository, EmployeeRepository>();
             services.AddTransient<IStudentService, StudentService>();

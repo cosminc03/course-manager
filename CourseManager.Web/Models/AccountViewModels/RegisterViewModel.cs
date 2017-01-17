@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CourseManager.Web.Models.AccountViewModels
@@ -44,5 +41,12 @@ namespace CourseManager.Web.Models.AccountViewModels
         [Required]
         public string Role { get; set; }
         public SelectList RoleList { get; set; }
+
+        [Required]
+        public int Year { get; set; }
+
+        [Required]
+        [RegularExpression("\\w\\d", ErrorMessage = "The Group is not valid (i.e 'B2')")]
+        public string Group { get; set; }
     }
 }
