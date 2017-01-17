@@ -23,6 +23,8 @@
 
                 <div class="card-body card-padding">
                     <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" role="form" class="p-t-25" novalidate>
+                        <div asp-validation-summary="All" class="text-danger"></div>
+
                         <div class="form-group input-group fg-float">
                             <span class="input-group-addon">
                                 <i class="zmdi zmdi-account"></i>
@@ -99,7 +101,7 @@
                             </div>
                             <span asp-validation-for="Role" class="text-danger"></span>
                         </div>
-                        
+
                         <div class="form-group input-group fg-float">
                             <span class="input-group-addon">
                                 <i class="zmdi zmdi-dot-circle"></i>
@@ -114,7 +116,7 @@
                             </div>
                             <span asp-validation-for="Year" class="text-danger"></span>
                         </div>
-                        
+
                         <div class="form-group input-group fg-float">
                             <span class="input-group-addon">
                                 <i class="zmdi zmdi-accounts"></i>

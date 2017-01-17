@@ -119,8 +119,8 @@ namespace CourseManager.Web
 
         private static async void DatabaseSeed(ApplicationDbContext dbContext, RoleManager<IdentityRole> roleManager)
         {
-            var studentRole = new IdentityRole { Name = "Student"};
-            var employeeRole = new IdentityRole { Name = "Employee"};
+            var studentRole = new IdentityRole { Name = "Student" };
+            var employeeRole = new IdentityRole { Name = "Employee" };
 
             await roleManager.CreateAsync(studentRole);
             await roleManager.CreateAsync(employeeRole);

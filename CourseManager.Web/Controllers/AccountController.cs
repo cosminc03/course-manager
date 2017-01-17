@@ -141,9 +141,8 @@ namespace CourseManager.Web.Controllers
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
 
                 var createUserResult = await _userManager.CreateAsync(user, model.Password);
-                var addRoleResult = await _userManager.AddToRoleAsync(user, model.Role.ToString());
 
-                if (createUserResult.Succeeded && addRoleResult.Succeeded)
+                if (createUserResult.Succeeded)
                 {
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
                     // Send an email with this link
@@ -151,43 +150,49 @@ namespace CourseManager.Web.Controllers
                     //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
                     //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
                     //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
-                    if (_userManager.GetRolesAsync(user).Result.Contains("Student"))
+                    var addRoleResult = await _userManager.AddToRoleAsync(user, model.Role.ToString());
+
+                    if (addRoleResult.Succeeded)
                     {
-                        var facUser = new Student
+                        if (_userManager.GetRolesAsync(user).Result.Contains("Student"))
                         {
-                            BaseId = new Guid(user.Id),
-                            DateOfBirth = model.DateOfBirth,
-                            FirstName = model.FirstName,
-                            LastName = model.LastName,
-                            CurrentYear = model.Year,
-                            Group = model.Group
-                        };
+                            var facUser = new Student
+                            {
+                                BaseId = new Guid(user.Id),
+                                DateOfBirth = model.DateOfBirth,
+                                FirstName = model.FirstName,
+                                LastName = model.LastName,
+                                CurrentYear = model.Year,
+                                Group = model.Group
+                            };
 
-                        _studentService.CreateStudent(facUser);
-                    }
-                    else
-                    {
-                        var empUser = new Employee()
+                            _studentService.CreateStudent(facUser);
+                        }
+                        else
                         {
-                            BaseId = new Guid(user.Id),
-                            DateOfBirth = model.DateOfBirth,
-                            FirstName = model.FirstName,
-                            LastName = model.LastName
-                        };
+                            var empUser = new Employee()
+                            {
+                                BaseId = new Guid(user.Id),
+                                DateOfBirth = model.DateOfBirth,
+                                FirstName = model.FirstName,
+                                LastName = model.LastName
+                            };
 
-                        _employeeService.CreateEmployee(empUser);
+                            _employeeService.CreateEmployee(empUser);
+                        }
+
+
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+
+                        _logger.LogInformation(3, "User created a new account with password.");
+
+                        return RedirectToLocal(returnUrl);
                     }
-                    
-                    
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-
-                    _logger.LogInformation(3, "User created a new account with password.");
-                    
-                    return RedirectToLocal(returnUrl);
+                    AddErrors(addRoleResult);
                 }
 
                 AddErrors(createUserResult);
-                AddErrors(addRoleResult);
+                
             }
 
             model.RoleList = new SelectList(_roleManager.Roles.ToList(), "Name", "Name");
