@@ -57,6 +57,23 @@ namespace CourseManager.Web.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public IActionResult Edit(Guid id)
+        {
+            Course course = _courseService.GetCourseById(id);
+            CreateViewModel model = new CreateViewModel
+            {
+                Description = course.Description,
+                Title = course.Title,
+                Semester = course.Semester,
+                Year = course.Year
+            };
+
+            return View(model);
+        }
+
+        //
+        // POST: /Course/Edit/{id}
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(CreateViewModel model)
@@ -77,23 +94,7 @@ namespace CourseManager.Web.Controllers
         }
 
         //
-        // POST: /Course/Edit/{id}
-        public IActionResult Edit(Guid id)
-        {
-            Course course = _courseService.GetCourseById(id);
-            CreateViewModel model = new CreateViewModel
-            {
-                Description = course.Description,
-                Title = course.Title,
-                Semester = course.Semester,
-                Year = course.Year
-            };
-
-            return View(model);
-        }
-
-        //
-        // DELETE: /Course/Delete/{id}
+        // GET: /Course/Delete/{id}
         [HttpGet]
         public IActionResult Delete(Guid id)
         {
@@ -110,6 +111,8 @@ namespace CourseManager.Web.Controllers
         }
 
 
+        //
+        // POST: /Course/Delete/{id}
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
@@ -117,6 +120,7 @@ namespace CourseManager.Web.Controllers
 
             Course course = _courseService.GetCourseById(id);
             _courseService.DeleteCourse(course);
+
             return RedirectToAction("Index");
         }
     }
