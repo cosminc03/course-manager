@@ -22,7 +22,13 @@ namespace CourseManager.Web.Controllers
 
             return View();
         }
-        
+
+        public IActionResult Show(Guid id)
+        {
+
+            return View();
+        }
+
         //
         // GET: /Course/Create
         [HttpGet]
