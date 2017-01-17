@@ -109,9 +109,14 @@ namespace CourseManager.Web.Controllers
             if (_signInManager.IsSignedIn(User))
                 return RedirectToLocal(returnUrl);
 
-            ViewBag.UserRoles = new SelectList(_roleManager.Roles.ToList(), "Name", "Name") ;
             ViewData["ReturnUrl"] = returnUrl;
-            return View();
+
+            var model = new RegisterViewModel
+            {
+                RoleList = new SelectList(_roleManager.Roles.ToList(), "Name", "Name")
+            };
+            
+            return View(model);
         }
 
         //
@@ -129,16 +134,6 @@ namespace CourseManager.Web.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var facUser = new Student
-                {
-                    BaseId = new Guid(user.Id),
-                    DateOfBirth = model.DateOfBirth,
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
-
-                    CurrentYear = 1,
-                    Group = "A1"
-                };
 
                 var createUserResult = await _userManager.CreateAsync(user, model.Password);
                 var addRoleResult = await _userManager.AddToRoleAsync(user, model.Role.ToString());
@@ -151,6 +146,17 @@ namespace CourseManager.Web.Controllers
                     //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
                     //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
                     //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
+                    var facUser = new Student
+                    {
+                        BaseId = new Guid(user.Id),
+                        DateOfBirth = model.DateOfBirth,
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+
+                        CurrentYear = 1,
+                        Group = "A1"
+                    };
+
                     _studentRepository.Create(facUser);
                     
                     await _signInManager.SignInAsync(user, isPersistent: false);
@@ -164,6 +170,7 @@ namespace CourseManager.Web.Controllers
                 AddErrors(addRoleResult);
             }
 
+            model.RoleList = new SelectList(_roleManager.Roles.ToList(), "Name", "Name");
             // If we got this far, something failed, redisplay form
             return View(model);
         }
