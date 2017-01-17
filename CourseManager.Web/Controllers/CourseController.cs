@@ -4,16 +4,25 @@ using CourseManager.Core.Models;
 using CourseManager.Core.Services.Interfaces;
 using System;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using CourseManager.Web.Models;
 
 namespace CourseManager.Web.Controllers
 {
     public class CourseController : Controller
     {
         private readonly ICourseService _courseService;
+        private readonly IStudentService _studentService;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public CourseController(ICourseService courseService)
+
+        public CourseController(ICourseService courseService, IStudentService studentService, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
         {
             _courseService = courseService;
+            _studentService = studentService;
+            _signInManager = signInManager;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
@@ -136,6 +145,18 @@ namespace CourseManager.Web.Controllers
             _courseService.DeleteCourse(course);
 
             return RedirectToAction("Index");
+        }
+
+        [Authorize(Roles = "Student")]
+        public IActionResult Subscribe(Guid Id)
+        {
+            Course course = _courseService.GetCourseById(Id);
+            if (_signInManager.IsSignedIn(User))
+            {
+                var userId = _userManager.GetUserId(User);
+                Student student = _studentService.GetStudentByBaseId(new Guid(userId));
+            }
+            return View();
         }
     }
 }

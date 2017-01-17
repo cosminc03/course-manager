@@ -10,6 +10,20 @@ namespace CourseManager.Infrastructure.Repositories
     {
         public StudentRepository(DbManager dbManager) : base(dbManager)
         {
+
+        }
+
+        public Student FindByBaseId(Guid baseId)
+        {
+            var queryResult = from elem in DbManager.Set<Student>()
+                              where elem.BaseId == baseId
+                              select elem;
+            return queryResult.FirstOrDefault();
+        }
+
+        public ICollection<Course> FindSubscribedCourses()
+        {
+            throw new NotImplementedException();
         }
     }
 }

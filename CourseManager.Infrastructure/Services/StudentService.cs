@@ -46,5 +46,10 @@ namespace CourseManager.Infrastructure.Services
         {
             _studentRepository.Update(student);
         }
+
+        public Student GetStudentByBaseId(Guid baseId)
+        {
+            return _studentRepository.FindByBaseId(baseId);
+        }
     }
 }
