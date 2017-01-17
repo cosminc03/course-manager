@@ -71,6 +71,8 @@ namespace CourseManager.Web
             services.AddTransient<ICourseService, CourseService>();
             services.AddTransient<ISeminarRepository, SeminarRepository>();
             services.AddTransient<ISeminarService, SeminarService>();
+            services.AddTransient<IPostService, PostService>();
+            services.AddTransient<IPostRepository, PostRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
