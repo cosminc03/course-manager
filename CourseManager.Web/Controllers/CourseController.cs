@@ -3,7 +3,6 @@ using CourseManager.Web.Models.CourseViewModels;
 using CourseManager.Core.Models;
 using CourseManager.Core.Services.Interfaces;
 using System;
-using CourseManager.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using CourseManager.Web.Models;
@@ -46,6 +45,8 @@ namespace CourseManager.Web.Controllers
         {
             ViewBag.Course = _courseService.GetCourseById(id);
 
+            ViewBag.Course.Owner = _courseService.GetOwner(id);
+
             return View();
         }
 
@@ -73,7 +74,6 @@ namespace CourseManager.Web.Controllers
                 var employee = _employeeService.GetEmployeeByBaseId(
                 new Guid(_userManager.GetUserId(User))
                 );
-
                 var course = new Course
                 {
                     Title = model.Title,
@@ -84,7 +84,7 @@ namespace CourseManager.Web.Controllers
                         )
                 };
 
-                _courseService.CreateCourse(employee, course);
+                _courseService.CreateCourse(course);
                 
                 return View(model);
             }
@@ -164,7 +164,7 @@ namespace CourseManager.Web.Controllers
             return RedirectToAction("Index");
         }
 
-        [Authorize(Roles = "Student")]
+        /*[Authorize(Roles = "Student")]
         public IActionResult Subscribe(Guid id)
         {
             var course = _courseService.GetCourseById(id);
@@ -175,6 +175,6 @@ namespace CourseManager.Web.Controllers
            _studentService.SubscribeCourse(student, course);
             
             return View();
-        }
+        }*/
     }
 }

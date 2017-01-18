@@ -10,6 +10,6 @@ namespace CourseManager.Core.Repositories.Interfaces
     {
         Employee FindByBaseId(Guid baseId);
 
-        List<Course> FindAllCourses();
+        Employee FindByIdWithCourses(Guid id);
     }
 }

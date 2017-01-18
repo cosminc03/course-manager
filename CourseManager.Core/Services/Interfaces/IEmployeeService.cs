@@ -14,12 +14,15 @@ namespace CourseManager.Core.Services.Interfaces
 
         Employee GetEmployeeById(Guid guid);
 
-        void CreateEmployee(Employee course);
-
-        void UpdateEmployee(Employee course);
-
-        void DeleteEmployee(Employee course);
-
         Employee GetEmployeeByBaseId(Guid baseId);
+
+        IEnumerable<Course> GetAllCourses(Employee employee);
+
+        void CreateEmployee(Employee employee);
+
+        void UpdateEmployee(Employee employee);
+
+        void DeleteEmployee(Employee employee);
+
     }
 }

@@ -8,9 +8,5 @@ namespace CourseManager.Core.Repositories.Interfaces
     public interface IStudentRepository : IRepository<Student>
     {
         Student FindByBaseId(Guid baseId);
-
-        ICollection<Course> FindSubscribedCourses();
-
-        void AddCourse(Student student, Course course);
     }
 }

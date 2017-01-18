@@ -12,8 +12,8 @@ namespace CourseManager.Infrastructure
         public DbSet<Grade> Grades { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Seminar> Seminaries { get; set; }
-        public DbSet<StudentCourse> StudentCourses { get; set; }
-        public DbSet<CourseEmployee> CourseEmployees { get; set; }
+        //public DbSet<StudentCourse> StudentCourses { get; set; }
+        //public DbSet<CourseEmployee> CourseEmployees { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -22,7 +22,7 @@ namespace CourseManager.Infrastructure
             base.OnConfiguring(optionsBuilder);
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+       /* protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Student-Course Many-to-Many
             modelBuilder.Entity<StudentCourse>()
@@ -51,6 +51,6 @@ namespace CourseManager.Infrastructure
                 .HasOne(pt => pt.Employee)
                 .WithMany(t => t.CourseEmployees)
                 .HasForeignKey(pt => pt.EmployeeId);
-        }
+        }*/
     }
 }

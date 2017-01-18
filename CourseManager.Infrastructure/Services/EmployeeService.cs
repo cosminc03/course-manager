@@ -17,6 +17,11 @@ namespace CourseManager.Infrastructure.Services
             _employeeRepository = employeeRepository; 
         }
 
+        public IEnumerable<Course> GetAllCourses(Employee employee)
+        {
+            return _employeeRepository.FindByIdWithCourses(employee.Id).Courses;
+        }
+
         public void CreateEmployee(Employee employee)
         {
             _employeeRepository.Create(employee);
@@ -42,14 +47,14 @@ namespace CourseManager.Infrastructure.Services
             return _employeeRepository.FindById(guid);
         }
 
+        public Employee GetEmployeeByBaseId(Guid baseId)
+        {
+            return _employeeRepository.FindByBaseId(baseId);
+        }
+
         public void UpdateEmployee(Employee employee)
         {
             _employeeRepository.Update(employee);
-        }
-
-        public Employee GetEmployeeByBaseId(Guid baseId)
-        {
-           return _employeeRepository.FindByBaseId(baseId);
         }
     }
 }

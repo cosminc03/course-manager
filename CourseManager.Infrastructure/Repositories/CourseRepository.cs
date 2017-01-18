@@ -1,5 +1,9 @@
-﻿using CourseManager.Core.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using CourseManager.Core.Models;
 using CourseManager.Core.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 namespace CourseManager.Infrastructure.Repositories
 {
     public class CourseRepository : Repository<Course>, ICourseRepository
@@ -8,14 +12,13 @@ namespace CourseManager.Infrastructure.Repositories
         {
         }
 
-        public void Create(Employee employee, Course course)
+        public Employee FindOwnerById(Guid id)
         {
-            this.Create(course);
+            var course = DbManager.Courses
+                .Where(crs => crs.Id == id)
+                .Include("Owner").FirstOrDefault();
 
-            employee.Courses.Add(course);
-
-            DbManager.Update(employee);
-            DbManager.SaveChanges();
+            return course.Owner;
         }
     }
 }

@@ -22,20 +22,5 @@ namespace CourseManager.Infrastructure.Repositories
                               select elem;
             return queryResult.FirstOrDefault();
         }
-
-        public ICollection<Course> FindSubscribedCourses()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void AddCourse(Student student, Course course)
-        {
-            var sc = new StudentCourse() { Course = course, Student = student };
-
-            student.StudentCourses.Add(sc);
-
-            DbManager.Update(student);
-            DbManager.SaveChanges();
-        }
     }
 }

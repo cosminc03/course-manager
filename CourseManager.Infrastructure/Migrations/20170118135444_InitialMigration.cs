@@ -86,30 +86,6 @@ namespace CourseManager.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CourseEmployee",
-                columns: table => new
-                {
-                    CourseId = table.Column<Guid>(nullable: false),
-                    EmployeeId = table.Column<Guid>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CourseEmployee", x => new { x.CourseId, x.EmployeeId });
-                    table.ForeignKey(
-                        name: "FK_CourseEmployee_Courses_CourseId",
-                        column: x => x.CourseId,
-                        principalTable: "Courses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CourseEmployee_Employees_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "Employees",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Grades",
                 columns: table => new
                 {
@@ -195,44 +171,10 @@ namespace CourseManager.Infrastructure.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "StudentCourse",
-                columns: table => new
-                {
-                    StudentId = table.Column<Guid>(nullable: false),
-                    CourseId = table.Column<Guid>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_StudentCourse", x => new { x.StudentId, x.CourseId });
-                    table.ForeignKey(
-                        name: "FK_StudentCourse_Courses_CourseId",
-                        column: x => x.CourseId,
-                        principalTable: "Courses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_StudentCourse_Students_StudentId",
-                        column: x => x.StudentId,
-                        principalTable: "Students",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Courses_OwnerId",
                 table: "Courses",
                 column: "OwnerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CourseEmployee_CourseId",
-                table: "CourseEmployee",
-                column: "CourseId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CourseEmployee_EmployeeId",
-                table: "CourseEmployee",
-                column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Files_OwnerId",
@@ -268,23 +210,10 @@ namespace CourseManager.Infrastructure.Migrations
                 name: "IX_Seminaries_CourseId",
                 table: "Seminaries",
                 column: "CourseId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StudentCourse_CourseId",
-                table: "StudentCourse",
-                column: "CourseId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StudentCourse_StudentId",
-                table: "StudentCourse",
-                column: "StudentId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "CourseEmployee");
-
             migrationBuilder.DropTable(
                 name: "Files");
 
@@ -298,13 +227,10 @@ namespace CourseManager.Infrastructure.Migrations
                 name: "Seminaries");
 
             migrationBuilder.DropTable(
-                name: "StudentCourse");
+                name: "Students");
 
             migrationBuilder.DropTable(
                 name: "Courses");
-
-            migrationBuilder.DropTable(
-                name: "Students");
 
             migrationBuilder.DropTable(
                 name: "Employees");

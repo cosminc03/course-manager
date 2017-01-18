@@ -42,19 +42,14 @@ namespace CourseManager.Infrastructure.Services
             return _studentRepository.FindById(guid);
         }
 
-        public void UpdateStudent(Student student)
-        {
-            _studentRepository.Update(student);
-        }
-
         public Student GetStudentByBaseId(Guid baseId)
         {
             return _studentRepository.FindByBaseId(baseId);
         }
 
-        public void SubscribeCourse(Student student, Course course)
+        public void UpdateStudent(Student student)
         {
-            _studentRepository.AddCourse(student, course);
+            _studentRepository.Update(student);
         }
     }
 }

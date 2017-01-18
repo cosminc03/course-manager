@@ -14,7 +14,9 @@ namespace CourseManager.Core.Services.Interfaces
 
         Course GetCourseById(Guid guid);
 
-        void CreateCourse(Employee employee, Course course);
+        Employee GetOwner(Guid guid);
+
+        void CreateCourse(Course course);
 
         void UpdateCourse(Course course);
 

@@ -1,4 +1,4 @@
-﻿{
+{
   "version": "1.0.0-*",
   "buildOptions": {
     "emitEntryPoint": true
@@ -17,7 +17,8 @@
         "Microsoft.EntityFrameworkCore.SqlServer.Design": "1.0.1",
         "Microsoft.AspNetCore.Authentication.Cookies": "1.0.0",
         "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.0.0",
-        "CourseManager.Core": "1.0.0-*"
+        "CourseManager.Core": "1.0.0-*",
+        "Microsoft.EntityFrameworkCore": "1.1.0"
     },
 
   "tools": {

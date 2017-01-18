@@ -21,9 +21,24 @@ namespace CourseManager.Infrastructure.Repositories
             return queryResult.FirstOrDefault();
         }
 
-        public List<Course> FindAllCourses()
+        public Employee FindByIdWithCourses(Guid id)
         {
-            throw new NotImplementedException();
+            return DbManager.Employees
+                .Where(emp => emp.Id == id)
+                .Include("Courses")
+                .FirstOrDefault();
         }
+
+        /*
+          public  void EagerLoadCategoriesAndProducts()
+        {
+            ProductManager manager = new ProductManager();
+            var query = manager.Employees.Include("Courses");
+            foreach (Category category in query)
+            {
+                Console.WriteLine("{0} are {1} produse asignate", category.Name, category.Products.Count);
+            }
+        }
+         */
     }
 }

@@ -16,11 +16,6 @@ namespace CourseManager.Infrastructure.Services
             _courseRepository = courseRepository;
         }
 
-        public void CreateCourse(Employee employee, Course course)
-        {
-            _courseRepository.Create(employee, course);
-        }
-
         public void DeleteCourse(Course course)
         {
             _courseRepository.Delete(course);
@@ -41,9 +36,21 @@ namespace CourseManager.Infrastructure.Services
             return _courseRepository.FindById(guid);
         }
 
+        public Employee GetOwner(Guid guid)
+        {
+            return _courseRepository.FindOwnerById(guid);
+        }
+
+        public void CreateCourse(Course course)
+        {
+            _courseRepository.Create(course);
+        }
+
         public void UpdateCourse(Course course)
         {
             _courseRepository.Update(course);
         }
+
+
     }
 }
