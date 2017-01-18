@@ -22,7 +22,7 @@ namespace CourseManager.Infrastructure
             base.OnConfiguring(optionsBuilder);
         }
 
-       /* protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Student-Course Many-to-Many
             modelBuilder.Entity<StudentCourse>()
@@ -38,6 +38,7 @@ namespace CourseManager.Infrastructure
                 .WithMany(t => t.StudentCourses)
                 .HasForeignKey(pt => pt.CourseId);
 
+            /*
             //Course-Employee Many-to-Many
             modelBuilder.Entity<CourseEmployee>()
                 .HasKey(t => new { t.CourseId, t.EmployeeId});
@@ -50,7 +51,7 @@ namespace CourseManager.Infrastructure
             modelBuilder.Entity<CourseEmployee>()
                 .HasOne(pt => pt.Employee)
                 .WithMany(t => t.CourseEmployees)
-                .HasForeignKey(pt => pt.EmployeeId);
-        }*/
+                .HasForeignKey(pt => pt.EmployeeId);*/
+        }
     }
 }

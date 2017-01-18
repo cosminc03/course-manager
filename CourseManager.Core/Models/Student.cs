@@ -28,6 +28,6 @@ namespace CourseManager.Core.Models
         public string Group { get; set; }
 
         public virtual ICollection<Grade> Grades { get; set; } = new HashSet<Grade>();
-        //public virtual ICollection<StudentCourse> StudentCourses { get; set; } = new HashSet<StudentCourse>();
+        public virtual ICollection<StudentCourse> StudentCourses { get; set; } = new HashSet<StudentCourse>();
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using CourseManager.Core.Models;
 using CourseManager.Core.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+
 namespace CourseManager.Infrastructure.Repositories
 {
     public class CourseRepository : Repository<Course>, ICourseRepository
