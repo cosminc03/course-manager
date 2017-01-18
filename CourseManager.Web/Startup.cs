@@ -74,6 +74,8 @@ namespace CourseManager.Web
             services.AddTransient<IEmployeeRepository, EmployeeRepository>();
             services.AddTransient<IStudentService, StudentService>();
             services.AddTransient<IStudentRepository, StudentRepository>();
+            services.AddTransient<IEmployeeService, EmployeeService>();
+            services.AddTransient<IEmployeeRepository, EmployeeRepository>();
 
         }
 

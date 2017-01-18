@@ -46,5 +46,10 @@ namespace CourseManager.Infrastructure.Services
         {
             _employeeRepository.Update(employee);
         }
+
+        public Employee GetEmployeeByBaseId(Guid baseId)
+        {
+           return _employeeRepository.FindByBaseId(baseId);
+        }
     }
 }

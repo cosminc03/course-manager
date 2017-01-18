@@ -51,5 +51,10 @@ namespace CourseManager.Infrastructure.Services
         {
             return _studentRepository.FindByBaseId(baseId);
         }
+
+        public void SubscribeCourse(Student student, Course course)
+        {
+            _studentRepository.AddCourse(student, course);
+        }
     }
 }

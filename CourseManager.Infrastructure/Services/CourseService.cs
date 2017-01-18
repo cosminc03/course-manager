@@ -16,9 +16,9 @@ namespace CourseManager.Infrastructure.Services
             _courseRepository = courseRepository;
         }
 
-        public void CreateCourse(Course course)
+        public void CreateCourse(Employee employee, Course course)
         {
-            _courseRepository.Create(course);
+            _courseRepository.Create(employee, course);
         }
 
         public void DeleteCourse(Course course)

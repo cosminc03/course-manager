@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using CourseManager.Core.Models;
 using CourseManager.Core.Repositories.Interfaces;
+using NuGet.Packaging;
+
 namespace CourseManager.Infrastructure.Repositories
 {
     public class StudentRepository : Repository<Student>, IStudentRepository
@@ -24,6 +26,16 @@ namespace CourseManager.Infrastructure.Repositories
         public ICollection<Course> FindSubscribedCourses()
         {
             throw new NotImplementedException();
+        }
+
+        public void AddCourse(Student student, Course course)
+        {
+            var sc = new StudentCourse() { Course = course, Student = student };
+
+            student.StudentCourses.Add(sc);
+
+            DbManager.Update(student);
+            DbManager.SaveChanges();
         }
     }
 }

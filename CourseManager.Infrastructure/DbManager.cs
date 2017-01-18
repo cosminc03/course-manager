@@ -12,7 +12,8 @@ namespace CourseManager.Infrastructure
         public DbSet<Grade> Grades { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Seminar> Seminaries { get; set; }
-
+        public DbSet<StudentCourse> StudentCourses { get; set; }
+        public DbSet<CourseEmployee> CourseEmployees { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

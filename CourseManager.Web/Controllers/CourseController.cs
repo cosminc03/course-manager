@@ -3,6 +3,7 @@ using CourseManager.Web.Models.CourseViewModels;
 using CourseManager.Core.Models;
 using CourseManager.Core.Services.Interfaces;
 using System;
+using CourseManager.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using CourseManager.Web.Models;
@@ -13,12 +14,20 @@ namespace CourseManager.Web.Controllers
     {
         private readonly ICourseService _courseService;
         private readonly IStudentService _studentService;
+        private readonly IEmployeeService _employeeService;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
 
 
-        public CourseController(ICourseService courseService, IStudentService studentService, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
+        public CourseController(
+            ICourseService courseService, 
+            IStudentService studentService, 
+            IEmployeeService employeeService,
+            SignInManager<ApplicationUser> signInManager, 
+            UserManager<ApplicationUser> userManager
+            )
         {
+            _employeeService = employeeService;
             _courseService = courseService;
             _studentService = studentService;
             _signInManager = signInManager;
@@ -53,6 +62,7 @@ namespace CourseManager.Web.Controllers
         //
         // POST: /Course/Create
         [HttpPost]
+        [Authorize(Roles = "Employee")]
         [ValidateAntiForgeryToken]
         public IActionResult Create(CourseCreateViewModel model, string returnUrl = null)
         {
@@ -60,15 +70,22 @@ namespace CourseManager.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                Course course = new Course
+                var employee = _employeeService.GetEmployeeByBaseId(
+                new Guid(_userManager.GetUserId(User))
+                );
+
+                var course = new Course
                 {
                     Title = model.Title,
                     Description = model.Description,
                     Semester = model.Semester,
+                    Owner = _employeeService.GetEmployeeByBaseId(
+                        new Guid(_userManager.GetUserId(User))
+                        )
                 };
 
-                _courseService.CreateCourse(course);
-
+                _courseService.CreateCourse(employee, course);
+                
                 return View(model);
             }
 
@@ -76,7 +93,7 @@ namespace CourseManager.Web.Controllers
         }
 
         //
-        // GET: /Course/Edit/{id
+        // GET: /Course/Edit/{id}
         [HttpGet]
         public IActionResult Edit(Guid id)
         {
@@ -148,14 +165,15 @@ namespace CourseManager.Web.Controllers
         }
 
         [Authorize(Roles = "Student")]
-        public IActionResult Subscribe(Guid Id)
+        public IActionResult Subscribe(Guid id)
         {
-            Course course = _courseService.GetCourseById(Id);
-            if (_signInManager.IsSignedIn(User))
-            {
-                var userId = _userManager.GetUserId(User);
-                Student student = _studentService.GetStudentByBaseId(new Guid(userId));
-            }
+            var course = _courseService.GetCourseById(id);
+            var student = _studentService.GetStudentByBaseId(
+                new Guid(_userManager.GetUserId(User))
+                );
+
+           _studentService.SubscribeCourse(student, course);
+            
             return View();
         }
     }

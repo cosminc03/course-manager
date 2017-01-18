@@ -22,5 +22,7 @@ namespace CourseManager.Core.Services.Interfaces
         void DeleteStudent(Student student);
 
         Student GetStudentByBaseId(Guid baseId);
+
+        void SubscribeCourse(Student student, Course course);
     }
 }

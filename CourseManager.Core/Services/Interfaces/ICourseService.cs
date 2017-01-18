@@ -9,10 +9,15 @@ namespace CourseManager.Core.Services.Interfaces
     public interface ICourseService
     {
         IEnumerable<Course> GetAllCourses();
+
         IEnumerable<string> GetAllCourseNames();
+
         Course GetCourseById(Guid guid);
-        void CreateCourse(Course course);
+
+        void CreateCourse(Employee employee, Course course);
+
         void UpdateCourse(Course course);
+
         void DeleteCourse(Course course);
     }
 }

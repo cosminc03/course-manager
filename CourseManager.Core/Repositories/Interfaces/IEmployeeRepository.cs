@@ -8,5 +8,8 @@ namespace CourseManager.Core.Repositories.Interfaces
 {
     public interface IEmployeeRepository : IRepository<Employee>
     {
+        Employee FindByBaseId(Guid baseId);
+
+        List<Course> FindAllCourses();
     }
 }

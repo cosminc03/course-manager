@@ -10,5 +10,7 @@ namespace CourseManager.Core.Repositories.Interfaces
         Student FindByBaseId(Guid baseId);
 
         ICollection<Course> FindSubscribedCourses();
+
+        void AddCourse(Student student, Course course);
     }
 }
