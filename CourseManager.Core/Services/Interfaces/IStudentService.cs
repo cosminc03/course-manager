@@ -22,5 +22,9 @@ namespace CourseManager.Core.Services.Interfaces
         void UpdateStudent(Student student);
 
         void DeleteStudent(Student student);
+
+        void SubscribeCourse(Guid guid, Course course);
+
+        IEnumerable<StudentCourse> GetSubscribedCourses(Guid guid); 
     }
 }

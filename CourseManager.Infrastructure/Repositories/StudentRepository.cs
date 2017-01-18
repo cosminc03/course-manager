@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using CourseManager.Core.Models;
 using CourseManager.Core.Repositories.Interfaces;
-using NuGet.Packaging;
+using Microsoft.EntityFrameworkCore;
 
 namespace CourseManager.Infrastructure.Repositories
 {
@@ -21,6 +20,29 @@ namespace CourseManager.Infrastructure.Repositories
                               where elem.BaseId == baseId
                               select elem;
             return queryResult.FirstOrDefault();
+        }
+
+        public void AddCourse(Course course, Student student)
+        {
+            var rel = new StudentCourse()
+            {
+                CourseId = course.Id,
+                Course = course,
+                StudentId = student.Id,
+                Student = student
+            };
+
+            DbManager.StudentCourses.Add(rel);
+            DbManager.SaveChanges();
+        }
+
+        public IEnumerable<StudentCourse> FindCourses(Student student)
+        {
+            var rels = DbManager.StudentCourses
+                .Where(st => st.StudentId == student.Id)
+                .Include(sc => sc.Course);
+
+            return rels;
         }
     }
 }

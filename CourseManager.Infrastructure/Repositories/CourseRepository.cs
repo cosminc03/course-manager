@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using CourseManager.Core.Models;
 using CourseManager.Core.Repositories.Interfaces;
@@ -17,7 +16,8 @@ namespace CourseManager.Infrastructure.Repositories
         {
             var course = DbManager.Courses
                 .Where(crs => crs.Id == id)
-                .Include("Owner").FirstOrDefault();
+                .Include(emp => emp.Owner)
+                .FirstOrDefault();
 
             return course.Owner;
         }
