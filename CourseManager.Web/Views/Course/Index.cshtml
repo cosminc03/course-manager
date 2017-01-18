@@ -2,126 +2,83 @@
     ViewBag.Title = "Index";
 }
 
-<div class="wrapper">
-    <div class="user-header">
-        <h2 class="text-center">
-            Malinda Hollaway
-            <small>Web/UI Developer, Edinburgh, Scotland</small>
-        </h2>
-    </div>
+<div class="pm-body clearfix">
+    <ul class="tab-nav tn-justified">
+        <li><a href="profile-prof.html">About</a></li>
+        <li class="active">@Html.ActionLink("Courses", "Index")</li>
+    </ul>
+    <a asp-area="" asp-controller="Course" asp-action="Create" data-toggle="tooltip" title="Create new Course" class="btn bgm-lightgreen btn-icon waves-effect waves-circle waves-float pull-right m-t-15 m-r-40">
+        <i class="zmdi zmdi-plus"></i>
+    </a>
 
-    <div class="card custom-card" id="profile-main">
-        <div class="pm-overview c-overflow">
+    @{
+        var counter = 1;
+    }
+    @foreach (var item in ViewBag.ListOfCourses)
+    {
+        var id = "#collapseDescriptionCourse" + counter;
 
-            <div class="pmo-pic">
-                <div class="p-relative">
-                    <a href="">
-                        <img class="img-responsive" src="~/img/profile-pics/profile-pic-2.jpg" alt="">
-                    </a>
+        <div class="pmb-block m-t-25">
+            <div class="pmbb-header">
+                <h2 class="fw-400"><i class="zmdi zmdi-book m-r-10"></i> @item.Title</h2>
+                <a href="#" class="btn bgm-orange waves-effect m-t-25">Go to seminars</a>
+                <ul class="actions">
+                    <li class="dropdown">
+                        <a href="" data-toggle="dropdown">
+                            <i class="zmdi zmdi-more-vert"></i>
+                        </a>
 
-                    <a href="" class="pmop-edit">
-                        <i class="zmdi zmdi-camera"></i> <span class="hidden-xs">Update Profile Picture</span>
-                    </a>
-                </div>
-            </div>
-
-            <div class="pmo-block pmo-contact hidden-xs">
-                <h2>Contact</h2>
-
-                <ul>
-                    <li><i class="zmdi zmdi-phone"></i> 00971 12345678 9</li>
-                    <li><i class="zmdi zmdi-email"></i> malinda-h@gmail.com</li>
-                    <li><i class="zmdi zmdi-facebook-box"></i> malinda.hollaway</li>
-                    <li><i class="zmdi zmdi-twitter"></i> asda@malinda (twitter.com/malinda)</li>
-                    <li>
-                        <i class="zmdi zmdi-pin"></i>
-                        <address class="m-b-0 ng-binding">
-                            44-46 Morningside Road,<br>
-                            Edinburgh,<br>
-                            Scotland
-                        </address>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                            </li>
+                            <li>
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </div>
-        </div>
-
-        <div class="pm-body clearfix">
-            <ul class="tab-nav tn-justified">
-                <li><a href="profile-prof.html">About</a></li>
-                <li class="active">@Html.ActionLink("Courses", "Index")</li>
-            </ul>
-            <a asp-area="" asp-controller="Course" asp-action="Create" data-toggle="tooltip" title="Create new Course" class="btn bgm-lightgreen btn-icon waves-effect waves-circle waves-float pull-right m-t-15 m-r-40">
-                <i class="zmdi zmdi-plus"></i>
-            </a>
-            
-            @{ int counter = 1; }
-            @foreach (var item in ViewBag.ListOfCourses)
-            {
-                string id = "#collapseDescriptionCourse" + counter;
-
-                <div class="pmb-block m-t-25">
-                    <div class="pmbb-header">
-                        <h2 class="fw-400"><i class="zmdi zmdi-book m-r-10"></i> @item.Title</h2>
-                        <a href="#" class="btn bgm-orange waves-effect m-t-25">Go to seminars</a>
-                        <ul class="actions">
-                            <li class="dropdown">
-                                <a href="" data-toggle="dropdown">
-                                    <i class="zmdi zmdi-more-vert"></i>
-                                </a>
-
-                                <ul class="dropdown-menu dropdown-menu-right">
-                                    <li>
-                                        @Html.ActionLink("Edit", "Edit", new { id = item.Id })
-                                    </li>
-                                    <li>
-                                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="pmbb-body p-l-30">
-                        <div class="pmbb-view">
-                            <div class="panel-group" role="tablist" aria-multiselectable="true">
-                                <div class="panel panel-collapse">
-                                    <div class="panel-heading" role="tab" id="headingTwo">
-                                        <h4 class="panel-title">
-                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion"
-                                               href="@id" aria-expanded="false" aria-controls="@id">
-                                                <h4 class="fw-100 m-0">Description</h4>
-                                            </a>
-                                        </h4>
-                                    </div>
-                                    <div id="@id" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
-                                        <div class="panel-body">
-                                            @item.Description
-                                        </div>
-                                    </div>
+            <div class="pmbb-body p-l-30">
+                <div class="pmbb-view">
+                    <div class="panel-group" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-collapse">
+                            <div class="panel-heading" role="tab" id="headingTwo">
+                                <h4 class="panel-title">
+                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion"
+                                       href="@id" aria-expanded="false" aria-controls="@id">
+                                        <h4 class="fw-100 m-0">Description</h4>
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="@id" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                <div class="panel-body">
+                                    @item.Description
                                 </div>
                             </div>
                         </div>
-                        <div class="pmbb-view">
-                            <h4 class="fw-100">Lecturer</h4>
-                            <strong>
-                                <a href="#" class="btn btn-default waves-effect">Jamie Freeman</a>
-                            </strong>
-                        </div>
-                        <div class="pmbb-view">
-                            <h4 class="fw-100">Associate Proffesor</h4>
-                            <a href="#" class="btn btn-default waves-effect">Rick Graham</a>
-                            <a href="#" class="btn btn-default waves-effect">Alexander Bailey</a>
-                        </div>
-                        <div class="pmbb-view">
-                            <h4 class="fw-100">Assistant Lecturer</h4>
-                            <a href="#" class="btn btn-default waves-effect">Denise Franklin</a>
-                        </div>
                     </div>
                 </div>
-
-                counter++;
-            }
+                <div class="pmbb-view">
+                    <h4 class="fw-100">Lecturer</h4>
+                    <strong>
+                        <a href="#" class="btn btn-default waves-effect">Jamie Freeman</a>
+                    </strong>
+                </div>
+                <div class="pmbb-view">
+                    <h4 class="fw-100">Associate Proffesor</h4>
+                    <a href="#" class="btn btn-default waves-effect">Rick Graham</a>
+                    <a href="#" class="btn btn-default waves-effect">Alexander Bailey</a>
+                </div>
+                <div class="pmbb-view">
+                    <h4 class="fw-100">Assistant Lecturer</h4>
+                    <a href="#" class="btn btn-default waves-effect">Denise Franklin</a>
+                </div>
+            </div>
         </div>
-    </div>
+
+        counter++;
+    }
 </div>
 
 @section scripts {
@@ -131,4 +88,3 @@
         });
     </script>
 }
-    
