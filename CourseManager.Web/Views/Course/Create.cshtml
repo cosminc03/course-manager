@@ -12,110 +12,65 @@
     <link href="~/vendors/summernote/dist/summernote.css" rel="stylesheet">
 }
 
-<div class="wrapper">
-    <div class="user-header">
-        <h2 class="text-center">
-            Malinda Hollaway
-            <small>Web/UI Developer, Edinburgh, Scotland</small>
-        </h2>
-    </div>
+<div class="pm-body clearfix">
+    <h2 class="p-l-25 p-t-20 inline-block">Add course</h2>
 
-    <div class="card custom-card" id="profile-main">
-        <div class="pm-overview c-overflow">
-
-            <div class="pmo-pic">
-                <div class="p-relative">
-                    <a href="">
-                        <img class="img-responsive" src="~/img/profile-pics/profile-pic-2.jpg" alt="">
-                    </a>
-
-                    <a href="" class="pmop-edit">
-                        <i class="zmdi zmdi-camera"></i> <span class="hidden-xs">Update Profile Picture</span>
-                    </a>
+    <div class="card-body card-padding">
+        <form asp-controller="Course" asp-action="Create" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal" role="form" novalidate>
+            <div class="form-group">
+                <label asp-for="Title" for="courseTitle" class="col-sm-2 control-label">Title</label>
+                <div class="col-sm-10">
+                    <div class="fg-line">
+                        <input asp-for="Title" type="email" class="form-control" id="courseTitle" placeholder="Title">
+                    </div>
+                    <span asp-validation-for="Title" class="text-danger"></span>
                 </div>
             </div>
 
-            <div class="pmo-block pmo-contact hidden-xs">
-                <h2>Contact</h2>
-
-                <ul>
-                    <li><i class="zmdi zmdi-phone"></i> 00971 12345678 9</li>
-                    <li><i class="zmdi zmdi-email"></i> malinda-h@gmail.com</li>
-                    <li><i class="zmdi zmdi-facebook-box"></i> malinda.hollaway</li>
-                    <li><i class="zmdi zmdi-twitter"></i> email@malinda (twitter.com/malinda)</li>
-                    <li>
-                        <i class="zmdi zmdi-pin"></i>
-                        <address class="m-b-0 ng-binding">
-                            44-46 Morningside Road,<br>
-                            Edinburgh,<br>
-                            Scotland
-                        </address>
-                    </li>
-                </ul>
+            <div class="form-group">
+                <label asp-for="Description" for="courseDescription" class="col-sm-2 control-label">Description</label>
+                <div class="col-sm-10">
+                    <div class="fg-line">
+                        <textarea asp-for="Description" class="form-control" id="courseDescription" rows="3" placeholder="Type description for this seminar"></textarea>
+                    </div>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
             </div>
-        </div>
 
-        <div class="pm-body clearfix">
-            <h2 class="p-l-25 p-t-20 inline-block">Add course</h2>
-
-            <div class="card-body card-padding">
-                <form asp-controller="Course" asp-action="Create" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal" role="form" novalidate>
-                    <div class="form-group">
-                        <label asp-for="Title" for="courseTitle" class="col-sm-2 control-label">Title</label>
-                        <div class="col-sm-10">
-                            <div class="fg-line">
-                                <input asp-for="Title" type="email" class="form-control" id="courseTitle" placeholder="Title">
-                            </div>
-                            <span asp-validation-for="Title" class="text-danger"></span>
-                        </div>
+            <div class="form-group">
+                <label asp-for="Year" for="courseYear" class="col-sm-2 control-label">Year</label>
+                <div class="col-sm-10">
+                    <div class="fg-line">
+                        <select asp-for="Year" class="selectpicker" id="courseYear">
+                            <option value="1">Year I</option>
+                            <option value="2">Year II</option>
+                            <option value="3">Year III</option>
+                        </select>
                     </div>
-
-                    <div class="form-group">
-                        <label asp-for="Description" for="courseDescription" class="col-sm-2 control-label">Description</label>
-                        <div class="col-sm-10">
-                            <div class="fg-line">
-                                <textarea asp-for="Description" class="form-control" id="courseDescription" rows="3" placeholder="Type description for this seminar"></textarea>
-                            </div>
-                            <span asp-validation-for="Description" class="text-danger"></span>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label asp-for="Year" for="courseYear" class="col-sm-2 control-label">Year</label>
-                        <div class="col-sm-10">
-                            <div class="fg-line">
-                                <select asp-for="Year" class="selectpicker" id="courseYear">
-                                    <option value="1">Year I</option>
-                                    <option value="2">Year II</option>
-                                    <option value="3">Year III</option>
-                                </select>
-                            </div>
-                            <span asp-validation-for="Year" class="text-danger"></span>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label asp-for="Semester" for="courseSemester" class="col-sm-2 control-label">Semester</label>
-                        <div class="col-sm-10">
-                            <div class="fg-line">
-                                <select asp-for="Semester" class="selectpicker" id="courseSemester">
-                                    <option value="1">Semester I</option>
-                                    <option value="2">Semester II</option>
-                                    <option value="3">Semester III</option>
-                                </select>
-                            </div>
-                            <span asp-validation-for="Semester" class="text-danger"></span>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" class="btn btn-primary btn-sm">Create</button>
-                        </div>
-                    </div>
-                </form>
+                    <span asp-validation-for="Year" class="text-danger"></span>
+                </div>
             </div>
-        </div>
+
+            <div class="form-group">
+                <label asp-for="Semester" for="courseSemester" class="col-sm-2 control-label">Semester</label>
+                <div class="col-sm-10">
+                    <div class="fg-line">
+                        <select asp-for="Semester" class="selectpicker" id="courseSemester">
+                            <option value="1">Semester I</option>
+                            <option value="2">Semester II</option>
+                            <option value="3">Semester III</option>
+                        </select>
+                    </div>
+                    <span asp-validation-for="Semester" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary btn-sm">Create</button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 

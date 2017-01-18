@@ -25,8 +25,20 @@
     @await Html.PartialAsync("_Header")
     <section id="main">
         <div class="container">
-            @RenderBody()
-        </div>
+            <div class="wrapper">
+                <div class="user-header">
+                    <h2 class="text-center">
+                        Malinda Hollaway
+                        <small>Web/UI Developer, Edinburgh, Scotland</small>
+                    </h2>
+                </div>
+
+                <div class="card custom-card" id="profile-main">
+                    @Html.Partial("_ProfileSideBar")
+                    @RenderBody()
+                </div>
+            </div>
+         </div>
     </section>
 
     @Html.Partial("_Footer")
