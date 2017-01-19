@@ -45,18 +45,5 @@ namespace CourseManager.Web.Controllers
 
             return RedirectToAction("Index");
         }
-
-        /*[Authorize(Roles = "Student")]
-        public IActionResult Subscribe(Guid id)
-        {
-            var course = _courseService.GetCourseById(id);
-            var student = _studentService.GetStudentByBaseId(
-                new Guid(_userManager.GetUserId(User))
-                );
-
-           _studentService.SubscribeCourse(student, course);
-            
-            return View();
-        }*/
     }
 }

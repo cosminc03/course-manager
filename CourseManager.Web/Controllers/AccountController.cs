@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using CourseManager.Core.Models;
-using CourseManager.Core.Repositories.Interfaces;
 using CourseManager.Core.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -150,7 +148,7 @@ namespace CourseManager.Web.Controllers
                     //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
                     //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
                     //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
-                    var addRoleResult = await _userManager.AddToRoleAsync(user, model.Role.ToString());
+                    var addRoleResult = await _userManager.AddToRoleAsync(user, model.Role);
 
                     if (addRoleResult.Succeeded)
                     {
@@ -199,20 +197,7 @@ namespace CourseManager.Web.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-
-        //
-        // GET: /Account/Courses
-        [HttpGet]
-        [Authorize(Roles = "Employee")]
-        public IActionResult Courses(string returnUrl = null)
-        {
-            ViewData["ReturnUrl"] = returnUrl;
-
-            
-
-            return View();
-        }
-
+        
         //
         // POST: /Account/LogOff
         [HttpPost]
