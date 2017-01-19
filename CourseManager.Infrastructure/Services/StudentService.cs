@@ -34,7 +34,7 @@ namespace CourseManager.Infrastructure.Services
             _studentRepository.AddCourse(course, student);
         }
 
-        public IEnumerable<StudentCourse> GetSubscribedCourses(Guid guid)
+        public IEnumerable<Course> GetSubscribedCourses(Guid guid)
         {
             var student = _studentRepository.FindByBaseId(guid);
 

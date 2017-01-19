@@ -41,6 +41,21 @@ namespace CourseManager.Infrastructure.Migrations
                     b.ToTable("Courses");
                 });
 
+            modelBuilder.Entity("CourseManager.Core.Models.CourseEmployee", b =>
+                {
+                    b.Property<Guid>("CourseId");
+
+                    b.Property<Guid>("EmployeeId");
+
+                    b.HasKey("CourseId", "EmployeeId");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("CourseEmployees");
+                });
+
             modelBuilder.Entity("CourseManager.Core.Models.Employee", b =>
                 {
                     b.Property<Guid>("Id")
@@ -222,6 +237,19 @@ namespace CourseManager.Infrastructure.Migrations
                     b.HasOne("CourseManager.Core.Models.Employee", "Owner")
                         .WithMany("Courses")
                         .HasForeignKey("OwnerId");
+                });
+
+            modelBuilder.Entity("CourseManager.Core.Models.CourseEmployee", b =>
+                {
+                    b.HasOne("CourseManager.Core.Models.Course", "Course")
+                        .WithMany("CourseEmployees")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("CourseManager.Core.Models.Employee", "Employee")
+                        .WithMany("CourseEmployees")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("CourseManager.Core.Models.File", b =>

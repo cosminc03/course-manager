@@ -8,7 +8,7 @@ using CourseManager.Infrastructure;
 namespace CourseManager.Infrastructure.Migrations
 {
     [DbContext(typeof(DbManager))]
-    [Migration("20170118183102_InitialMigration")]
+    [Migration("20170118220245_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,6 +40,21 @@ namespace CourseManager.Infrastructure.Migrations
                     b.HasIndex("OwnerId");
 
                     b.ToTable("Courses");
+                });
+
+            modelBuilder.Entity("CourseManager.Core.Models.CourseEmployee", b =>
+                {
+                    b.Property<Guid>("CourseId");
+
+                    b.Property<Guid>("EmployeeId");
+
+                    b.HasKey("CourseId", "EmployeeId");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("CourseEmployees");
                 });
 
             modelBuilder.Entity("CourseManager.Core.Models.Employee", b =>
@@ -223,6 +238,19 @@ namespace CourseManager.Infrastructure.Migrations
                     b.HasOne("CourseManager.Core.Models.Employee", "Owner")
                         .WithMany("Courses")
                         .HasForeignKey("OwnerId");
+                });
+
+            modelBuilder.Entity("CourseManager.Core.Models.CourseEmployee", b =>
+                {
+                    b.HasOne("CourseManager.Core.Models.Course", "Course")
+                        .WithMany("CourseEmployees")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("CourseManager.Core.Models.Employee", "Employee")
+                        .WithMany("CourseEmployees")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("CourseManager.Core.Models.File", b =>

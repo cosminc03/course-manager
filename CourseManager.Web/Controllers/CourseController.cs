@@ -6,6 +6,7 @@ using System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using CourseManager.Web.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CourseManager.Web.Controllers
 {
@@ -19,10 +20,10 @@ namespace CourseManager.Web.Controllers
 
 
         public CourseController(
-            ICourseService courseService, 
-            IStudentService studentService, 
+            ICourseService courseService,
+            IStudentService studentService,
             IEmployeeService employeeService,
-            SignInManager<ApplicationUser> signInManager, 
+            SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager
             )
         {
@@ -46,6 +47,18 @@ namespace CourseManager.Web.Controllers
             ViewBag.Course = _courseService.GetCourseById(id);
 
             ViewBag.Course.Owner = _courseService.GetOwner(id);
+
+            ViewBag.Associates = _courseService.GetAssociates(ViewBag.Course);
+
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Students(Guid id)
+        {
+            ViewBag.Course = _courseService.GetCourseById(id);
+
+            ViewBag.Students = _courseService.GetStudents(id);
 
             return View();
         }
@@ -85,7 +98,7 @@ namespace CourseManager.Web.Controllers
                 };
 
                 _courseService.CreateCourse(course);
-                
+
                 return View(model);
             }
 
@@ -139,8 +152,8 @@ namespace CourseManager.Web.Controllers
         [HttpGet]
         public IActionResult Delete(Guid id)
         {
-            Course course = _courseService.GetCourseById(id);
-            CourseCreateViewModel model = new CourseCreateViewModel
+            var course = _courseService.GetCourseById(id);
+            var model = new CourseCreateViewModel
             {
                 Description = course.Description,
                 Title = course.Title,
@@ -162,6 +175,55 @@ namespace CourseManager.Web.Controllers
             _courseService.DeleteCourse(course);
 
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Employee")]
+        public IActionResult AddAssociate(Guid id, string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+
+            var employee = _employeeService.GetEmployeeByBaseId(
+               new Guid(_userManager.GetUserId(User))
+               );
+            var owner = _courseService.GetOwner(id);
+
+            if (employee.Id != owner.Id) return RedirectToAction("Profile", "Employee", new { id = employee.BaseId });
+
+            ViewBag.Course = _courseService.GetCourseById(id);
+
+            var model = new CourseAddAssociateViewModel()
+            {
+                AssociateList = new SelectList(_courseService.GetPossibleAssociates(ViewBag.Course), "Id", "FirstName")
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Employee")]
+        public ActionResult AddAssociate(CourseAddAssociateViewModel model, Guid id, string returnUrl = null)
+        {
+            var employee = _employeeService.GetEmployeeByBaseId(
+               new Guid(_userManager.GetUserId(User))
+               );
+            var owner = _courseService.GetOwner(id);
+
+            if (employee.Id != owner.Id) return RedirectToAction("Profile", "Employee", new { id = employee.BaseId });
+
+            if (ModelState.IsValid)
+            {
+                var associate = _employeeService.GetEmployeeById(new Guid(model.Associate));
+                var course = _courseService.GetCourseById(id);
+
+                _employeeService.AddAssociateToCourse(associate, course);
+
+                return RedirectToAction("Show", "Course", new { id = course.Id });
+            }
+
+            model.AssociateList = new SelectList(_courseService.GetPossibleAssociates(ViewBag.Course), "Id", "FirstName");
+
+            return RedirectToAction("AddAssociate", new { id = id });
         }
     }
 }

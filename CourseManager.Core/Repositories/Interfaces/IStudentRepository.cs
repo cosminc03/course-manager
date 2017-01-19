@@ -11,6 +11,6 @@ namespace CourseManager.Core.Repositories.Interfaces
 
         void AddCourse(Course course, Student student);
 
-        IEnumerable<StudentCourse> FindCourses(Student student);
+        IEnumerable<Course> FindCourses(Student student);
     }
 }

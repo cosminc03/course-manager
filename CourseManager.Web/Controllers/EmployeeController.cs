@@ -1,8 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using CourseManager.Core.Services.Interfaces;
+using CourseManager.Web.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CourseManager.Web.Controllers
@@ -10,12 +9,15 @@ namespace CourseManager.Web.Controllers
     public class EmployeeController : Controller
     {
         private readonly IEmployeeService _employeeService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public EmployeeController(
-            IEmployeeService employeeService
+            IEmployeeService employeeService,
+            UserManager<ApplicationUser> userManager
             )
         {
             _employeeService = employeeService;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
@@ -33,6 +35,5 @@ namespace CourseManager.Web.Controllers
 
             return View();
         }
-
     }
 }

@@ -11,5 +11,7 @@ namespace CourseManager.Core.Repositories.Interfaces
         Employee FindByBaseId(Guid baseId);
 
         Employee FindByIdWithCourses(Guid id);
+
+        void AddAssociate(Employee employee, Course course);
     }
 }

@@ -36,13 +36,18 @@ namespace CourseManager.Infrastructure.Repositories
             DbManager.SaveChanges();
         }
 
-        public IEnumerable<StudentCourse> FindCourses(Student student)
+        public IEnumerable<Course> FindCourses(Student student)
         {
             var rels = DbManager.StudentCourses
                 .Where(st => st.StudentId == student.Id)
                 .Include(sc => sc.Course);
 
-            return rels;
+            var courses = new HashSet<Course>();
+
+            foreach (var rel in rels)
+                courses.Add(rel.Course);
+
+            return courses;
         }
     }
 }

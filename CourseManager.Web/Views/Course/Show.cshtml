@@ -3,4 +3,11 @@
 <p>Semester: @ViewBag.Course.Semester</p>
 <p>Description: @ViewBag.Course.Description</p>
 <p>Owner: @ViewBag.Course.Owner.FirstName - @ViewBag.Course.Owner.LastName</p>
-<p>Associates: Associate Professors</p>
+<p>Associates:</p>
+
+<ul>
+    @foreach (var assoc in @ViewBag.Associates)
+    {
+        <li>@assoc.FirstName  @assoc.LastName</li>
+    }
+</ul>

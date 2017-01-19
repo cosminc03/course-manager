@@ -1,0 +1,8 @@
+﻿<h2>Students subscribed to @ViewBag.Course.Title</h2>
+
+<ul>
+    @foreach (var student in @ViewBag.Students)
+    {
+        <li>@student.FirstName @student.LastName</li>
+    }
+</ul>

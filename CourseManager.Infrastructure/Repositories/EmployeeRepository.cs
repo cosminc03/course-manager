@@ -28,16 +28,18 @@ namespace CourseManager.Infrastructure.Repositories
                 .FirstOrDefault();
         }
 
-        /*
-          public  void EagerLoadCategoriesAndProducts()
+        public void AddAssociate(Employee employee, Course course)
         {
-            ProductManager manager = new ProductManager();
-            var query = manager.Employees.Include("Courses");
-            foreach (Category category in query)
+            var rel = new CourseEmployee()
             {
-                Console.WriteLine("{0} are {1} produse asignate", category.Name, category.Products.Count);
-            }
+                CourseId = course.Id,
+                Course = course,
+                EmployeeId = employee.Id,
+                Employee = employee
+            };
+
+            DbManager.CourseEmployees.Add(rel);
+            DbManager.SaveChanges();
         }
-         */
     }
 }

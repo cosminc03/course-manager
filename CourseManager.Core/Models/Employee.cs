@@ -26,6 +26,6 @@ namespace CourseManager.Core.Models
         public virtual ICollection<Post> Posts { get; set; } = new HashSet<Post>();
         public virtual ICollection<File> Files { get; set; } = new HashSet<File>();
         public virtual ICollection<Course> Courses { get; set; } = new HashSet<Course>();
-        //public virtual ICollection<CourseEmployee> CourseEmployees { get; set; } = new HashSet<CourseEmployee>();
+        public virtual ICollection<CourseEmployee> CourseEmployees { get; set; } = new HashSet<CourseEmployee>();
     }
 }

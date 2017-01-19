@@ -16,6 +16,12 @@ namespace CourseManager.Core.Services.Interfaces
 
         Employee GetOwner(Guid guid);
 
+        IEnumerable<Student> GetStudents(Guid guid);
+
+        IEnumerable<Employee> GetAssociates(Course course);
+
+        IEnumerable<Employee> GetPossibleAssociates(Course course);
+
         void CreateCourse(Course course);
 
         void UpdateCourse(Course course);

@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using CourseManager.Core.Services.Interfaces;
 using CourseManager.Web.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -29,7 +26,7 @@ namespace CourseManager.Web.Controllers
 
         public IActionResult Index()
         {
-            ViewBag.Rels = _studentService.GetSubscribedCourses(
+            ViewBag.Courses = _studentService.GetSubscribedCourses(
                 new Guid(_userManager.GetUserId(User))
                 );
 

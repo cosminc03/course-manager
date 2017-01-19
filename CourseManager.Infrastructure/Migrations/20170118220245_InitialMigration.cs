@@ -86,6 +86,30 @@ namespace CourseManager.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CourseEmployees",
+                columns: table => new
+                {
+                    CourseId = table.Column<Guid>(nullable: false),
+                    EmployeeId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CourseEmployees", x => new { x.CourseId, x.EmployeeId });
+                    table.ForeignKey(
+                        name: "FK_CourseEmployees_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CourseEmployees_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Grades",
                 columns: table => new
                 {
@@ -201,6 +225,16 @@ namespace CourseManager.Infrastructure.Migrations
                 column: "OwnerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CourseEmployees_CourseId",
+                table: "CourseEmployees",
+                column: "CourseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CourseEmployees_EmployeeId",
+                table: "CourseEmployees",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Files_OwnerId",
                 table: "Files",
                 column: "OwnerId");
@@ -248,6 +282,9 @@ namespace CourseManager.Infrastructure.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "CourseEmployees");
+
             migrationBuilder.DropTable(
                 name: "Files");
 

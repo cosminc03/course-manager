@@ -22,6 +22,6 @@ namespace CourseManager.Core.Models
 
         public virtual Employee Owner { get; set; }
         public virtual ICollection<StudentCourse> StudentCourses { get; set; } = new HashSet<StudentCourse>();
-        //public virtual ICollection<CourseEmployee> CourseEmployees { get; set; } = new HashSet<CourseEmployee>();
+        public virtual ICollection<CourseEmployee> CourseEmployees { get; set; } = new HashSet<CourseEmployee>();
     }
 }
