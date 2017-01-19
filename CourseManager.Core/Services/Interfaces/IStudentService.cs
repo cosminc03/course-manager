@@ -15,10 +15,16 @@ namespace CourseManager.Core.Services.Interfaces
 
         Student GetStudentById(Guid guid);
 
+        Student GetStudentByBaseId(Guid baseId);
+
         void CreateStudent(Student student);
 
         void UpdateStudent(Student student);
 
         void DeleteStudent(Student student);
+
+        void SubscribeCourse(Guid guid, Course course);
+
+        IEnumerable<Course> GetSubscribedCourses(Guid guid); 
     }
 }

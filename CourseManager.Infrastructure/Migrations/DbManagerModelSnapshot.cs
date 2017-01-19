@@ -53,7 +53,7 @@ namespace CourseManager.Infrastructure.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("CourseEmployee");
+                    b.ToTable("CourseEmployees");
                 });
 
             modelBuilder.Entity("CourseManager.Core.Models.Employee", b =>
@@ -229,7 +229,7 @@ namespace CourseManager.Infrastructure.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("StudentCourse");
+                    b.ToTable("StudentCourses");
                 });
 
             modelBuilder.Entity("CourseManager.Core.Models.Course", b =>

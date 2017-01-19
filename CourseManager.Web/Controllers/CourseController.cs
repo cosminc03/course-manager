@@ -4,16 +4,34 @@ using CourseManager.Core.Models;
 using CourseManager.Core.Services.Interfaces;
 using System;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using CourseManager.Web.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CourseManager.Web.Controllers
 {
     public class CourseController : Controller
     {
         private readonly ICourseService _courseService;
+        private readonly IStudentService _studentService;
+        private readonly IEmployeeService _employeeService;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public CourseController(ICourseService courseService)
+
+        public CourseController(
+            ICourseService courseService,
+            IStudentService studentService,
+            IEmployeeService employeeService,
+            SignInManager<ApplicationUser> signInManager,
+            UserManager<ApplicationUser> userManager
+            )
         {
+            _employeeService = employeeService;
             _courseService = courseService;
+            _studentService = studentService;
+            _signInManager = signInManager;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
@@ -27,6 +45,20 @@ namespace CourseManager.Web.Controllers
         public IActionResult Show(Guid id)
         {
             ViewBag.Course = _courseService.GetCourseById(id);
+
+            ViewBag.Course.Owner = _courseService.GetOwner(id);
+
+            ViewBag.Associates = _courseService.GetAssociates(ViewBag.Course);
+
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Students(Guid id)
+        {
+            ViewBag.Course = _courseService.GetCourseById(id);
+
+            ViewBag.Students = _courseService.GetStudents(id);
 
             return View();
         }
@@ -44,6 +76,7 @@ namespace CourseManager.Web.Controllers
         //
         // POST: /Course/Create
         [HttpPost]
+        [Authorize(Roles = "Employee")]
         [ValidateAntiForgeryToken]
         public IActionResult Create(CourseCreateViewModel model, string returnUrl = null)
         {
@@ -51,11 +84,17 @@ namespace CourseManager.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                Course course = new Course
+                var employee = _employeeService.GetEmployeeByBaseId(
+                new Guid(_userManager.GetUserId(User))
+                );
+                var course = new Course
                 {
                     Title = model.Title,
                     Description = model.Description,
                     Semester = model.Semester,
+                    Owner = _employeeService.GetEmployeeByBaseId(
+                        new Guid(_userManager.GetUserId(User))
+                        )
                 };
 
                 _courseService.CreateCourse(course);
@@ -67,7 +106,7 @@ namespace CourseManager.Web.Controllers
         }
 
         //
-        // GET: /Course/Edit/{id
+        // GET: /Course/Edit/{id}
         [HttpGet]
         public IActionResult Edit(Guid id)
         {
@@ -113,8 +152,8 @@ namespace CourseManager.Web.Controllers
         [HttpGet]
         public IActionResult Delete(Guid id)
         {
-            Course course = _courseService.GetCourseById(id);
-            CourseCreateViewModel model = new CourseCreateViewModel
+            var course = _courseService.GetCourseById(id);
+            var model = new CourseCreateViewModel
             {
                 Description = course.Description,
                 Title = course.Title,
@@ -136,6 +175,55 @@ namespace CourseManager.Web.Controllers
             _courseService.DeleteCourse(course);
 
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Employee")]
+        public IActionResult AddAssociate(Guid id, string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+
+            var employee = _employeeService.GetEmployeeByBaseId(
+               new Guid(_userManager.GetUserId(User))
+               );
+            var owner = _courseService.GetOwner(id);
+
+            if (employee.Id != owner.Id) return RedirectToAction("Profile", "Employee", new { id = employee.BaseId });
+
+            ViewBag.Course = _courseService.GetCourseById(id);
+
+            var model = new CourseAddAssociateViewModel()
+            {
+                AssociateList = new SelectList(_courseService.GetPossibleAssociates(ViewBag.Course), "Id", "FirstName")
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Employee")]
+        public ActionResult AddAssociate(CourseAddAssociateViewModel model, Guid id, string returnUrl = null)
+        {
+            var employee = _employeeService.GetEmployeeByBaseId(
+               new Guid(_userManager.GetUserId(User))
+               );
+            var owner = _courseService.GetOwner(id);
+
+            if (employee.Id != owner.Id) return RedirectToAction("Profile", "Employee", new { id = employee.BaseId });
+
+            if (ModelState.IsValid)
+            {
+                var associate = _employeeService.GetEmployeeById(new Guid(model.Associate));
+                var course = _courseService.GetCourseById(id);
+
+                _employeeService.AddAssociateToCourse(associate, course);
+
+                return RedirectToAction("Show", "Course", new { id = course.Id });
+            }
+
+            model.AssociateList = new SelectList(_courseService.GetPossibleAssociates(ViewBag.Course), "Id", "FirstName");
+
+            return RedirectToAction("AddAssociate", new { id = id });
         }
     }
 }

@@ -201,6 +201,19 @@ namespace CourseManager.Web.Controllers
         }
 
         //
+        // GET: /Account/Courses
+        [HttpGet]
+        [Authorize(Roles = "Employee")]
+        public IActionResult Courses(string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+
+            
+
+            return View();
+        }
+
+        //
         // POST: /Account/LogOff
         [HttpPost]
         [ValidateAntiForgeryToken]

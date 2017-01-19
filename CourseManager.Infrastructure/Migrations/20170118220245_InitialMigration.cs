@@ -86,7 +86,7 @@ namespace CourseManager.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CourseEmployee",
+                name: "CourseEmployees",
                 columns: table => new
                 {
                     CourseId = table.Column<Guid>(nullable: false),
@@ -94,15 +94,15 @@ namespace CourseManager.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CourseEmployee", x => new { x.CourseId, x.EmployeeId });
+                    table.PrimaryKey("PK_CourseEmployees", x => new { x.CourseId, x.EmployeeId });
                     table.ForeignKey(
-                        name: "FK_CourseEmployee_Courses_CourseId",
+                        name: "FK_CourseEmployees_Courses_CourseId",
                         column: x => x.CourseId,
                         principalTable: "Courses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CourseEmployee_Employees_EmployeeId",
+                        name: "FK_CourseEmployees_Employees_EmployeeId",
                         column: x => x.EmployeeId,
                         principalTable: "Employees",
                         principalColumn: "Id",
@@ -196,7 +196,7 @@ namespace CourseManager.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "StudentCourse",
+                name: "StudentCourses",
                 columns: table => new
                 {
                     StudentId = table.Column<Guid>(nullable: false),
@@ -204,15 +204,15 @@ namespace CourseManager.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StudentCourse", x => new { x.StudentId, x.CourseId });
+                    table.PrimaryKey("PK_StudentCourses", x => new { x.StudentId, x.CourseId });
                     table.ForeignKey(
-                        name: "FK_StudentCourse_Courses_CourseId",
+                        name: "FK_StudentCourses_Courses_CourseId",
                         column: x => x.CourseId,
                         principalTable: "Courses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_StudentCourse_Students_StudentId",
+                        name: "FK_StudentCourses_Students_StudentId",
                         column: x => x.StudentId,
                         principalTable: "Students",
                         principalColumn: "Id",
@@ -225,13 +225,13 @@ namespace CourseManager.Infrastructure.Migrations
                 column: "OwnerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CourseEmployee_CourseId",
-                table: "CourseEmployee",
+                name: "IX_CourseEmployees_CourseId",
+                table: "CourseEmployees",
                 column: "CourseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CourseEmployee_EmployeeId",
-                table: "CourseEmployee",
+                name: "IX_CourseEmployees_EmployeeId",
+                table: "CourseEmployees",
                 column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
@@ -270,20 +270,20 @@ namespace CourseManager.Infrastructure.Migrations
                 column: "CourseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StudentCourse_CourseId",
-                table: "StudentCourse",
+                name: "IX_StudentCourses_CourseId",
+                table: "StudentCourses",
                 column: "CourseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StudentCourse_StudentId",
-                table: "StudentCourse",
+                name: "IX_StudentCourses_StudentId",
+                table: "StudentCourses",
                 column: "StudentId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CourseEmployee");
+                name: "CourseEmployees");
 
             migrationBuilder.DropTable(
                 name: "Files");
@@ -298,7 +298,7 @@ namespace CourseManager.Infrastructure.Migrations
                 name: "Seminaries");
 
             migrationBuilder.DropTable(
-                name: "StudentCourse");
+                name: "StudentCourses");
 
             migrationBuilder.DropTable(
                 name: "Courses");

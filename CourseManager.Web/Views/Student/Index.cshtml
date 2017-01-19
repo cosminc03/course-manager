@@ -1,0 +1,10 @@
+﻿@inject UserManager<ApplicationUser> UserManager
+
+<h3>Subscribed courses for Hello @UserManager.GetUserName(User)!</h3>
+
+<ul>
+    @foreach (var course in @ViewBag.Courses)
+    {
+        <li>@course.Title</li>
+    }
+</ul>

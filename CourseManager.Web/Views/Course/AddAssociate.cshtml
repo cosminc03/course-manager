@@ -1,0 +1,7 @@
+﻿@model CourseAddAssociateViewModel
+
+<form asp-controller="Course" asp-action="AddAssociate" asp-route-returnurl="@ViewData["returnUrl"]" method="post">
+    <select asp-for="Associate" asp-items="@Model.AssociateList"></select>
+
+    <button type="submit">Submit</button>
+</form>

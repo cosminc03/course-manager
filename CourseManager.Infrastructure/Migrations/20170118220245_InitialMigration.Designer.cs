@@ -8,7 +8,7 @@ using CourseManager.Infrastructure;
 namespace CourseManager.Infrastructure.Migrations
 {
     [DbContext(typeof(DbManager))]
-    [Migration("20170117222211_InitialMigration")]
+    [Migration("20170118220245_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,7 +54,7 @@ namespace CourseManager.Infrastructure.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("CourseEmployee");
+                    b.ToTable("CourseEmployees");
                 });
 
             modelBuilder.Entity("CourseManager.Core.Models.Employee", b =>
@@ -230,7 +230,7 @@ namespace CourseManager.Infrastructure.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("StudentCourse");
+                    b.ToTable("StudentCourses");
                 });
 
             modelBuilder.Entity("CourseManager.Core.Models.Course", b =>

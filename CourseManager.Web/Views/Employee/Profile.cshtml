@@ -1,0 +1,8 @@
+﻿<h3>@ViewBag.Employee.FirstName - @ViewBag.Employee.LastName</h3>
+
+<ul>
+    @foreach (var course in @ViewBag.EmployeeCourses)
+    {
+        <li>@course.Title</li>
+    }
+</ul>

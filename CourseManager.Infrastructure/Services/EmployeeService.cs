@@ -12,9 +12,21 @@ namespace CourseManager.Infrastructure.Services
     {
         private readonly IEmployeeRepository _employeeRepository;
 
-        public EmployeeService(IEmployeeRepository employeeRepository)
+        public EmployeeService(
+            IEmployeeRepository employeeRepository
+            )
         {
-            _employeeRepository = employeeRepository; 
+            _employeeRepository = employeeRepository;
+        }
+
+        public IEnumerable<Course> GetAllCourses(Employee employee)
+        {
+            return _employeeRepository.FindByIdWithCourses(employee.Id).Courses;
+        }
+
+        public void AddAssociateToCourse(Employee employee, Course course)
+        {
+             _employeeRepository.AddAssociate(employee, course);
         }
 
         public void CreateEmployee(Employee employee)
@@ -40,6 +52,11 @@ namespace CourseManager.Infrastructure.Services
         public Employee GetEmployeeById(Guid guid)
         {
             return _employeeRepository.FindById(guid);
+        }
+
+        public Employee GetEmployeeByBaseId(Guid baseId)
+        {
+            return _employeeRepository.FindByBaseId(baseId);
         }
 
         public void UpdateEmployee(Employee employee)

@@ -9,10 +9,21 @@ namespace CourseManager.Core.Services.Interfaces
     public interface IEmployeeService
     {
         IEnumerable<Employee> GetAllEmployees();
+
         IEnumerable<string> GetAllEmployeesNames();
+
         Employee GetEmployeeById(Guid guid);
-        void CreateEmployee(Employee course);
-        void UpdateEmployee(Employee course);
-        void DeleteEmployee(Employee course);
+
+        Employee GetEmployeeByBaseId(Guid baseId);
+
+        IEnumerable<Course> GetAllCourses(Employee employee);
+
+        void AddAssociateToCourse(Employee employee, Course course);
+
+        void CreateEmployee(Employee employee);
+
+        void UpdateEmployee(Employee employee);
+
+        void DeleteEmployee(Employee employee);
     }
 }
