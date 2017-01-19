@@ -34,6 +34,22 @@ namespace CourseManager.Infrastructure.Services
             _studentRepository.AddCourse(course, student);
         }
 
+        public void UnsubscribeCourse(Guid guid, Course course)
+        {
+            var student = _studentRepository.FindByBaseId(guid);
+
+            _studentRepository.DeleteCourse(course, student);
+        }
+
+        public bool IsSubscribedToCourse(Guid guid, Course course)
+        {
+            var student = _studentRepository.FindByBaseId(guid);
+
+            var courses = _studentRepository.FindCourses(student);
+
+            return courses.Contains(course);
+        }
+
         public IEnumerable<Course> GetSubscribedCourses(Guid guid)
         {
             var student = _studentRepository.FindByBaseId(guid);

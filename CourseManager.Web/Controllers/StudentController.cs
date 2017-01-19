@@ -45,5 +45,18 @@ namespace CourseManager.Web.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [Authorize(Roles = "Student")]
+        public IActionResult Unsubscribe(Guid id)
+        {
+            var course = _courseService.GetCourseById(id);
+
+            _studentService.UnsubscribeCourse(
+                new Guid(_userManager.GetUserId(User)),
+                course 
+                );
+
+            return RedirectToAction("Index");
+        }
     }
 }

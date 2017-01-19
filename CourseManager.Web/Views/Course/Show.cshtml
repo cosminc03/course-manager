@@ -1,4 +1,9 @@
 ﻿<p>Title: @ViewBag.Course.Title</p>
+
+@if (@ViewBag.IsStudent) { 
+    <p>Subscribed: @if(@ViewBag.IsSubscribed) { <span>Yes</span> } else { <span>No</span> } </p>
+}
+
 <p>Year: @ViewBag.Course.Year</p>
 <p>Semester: @ViewBag.Course.Semester</p>
 <p>Description: @ViewBag.Course.Description</p>

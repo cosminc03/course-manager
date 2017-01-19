@@ -24,9 +24,19 @@ namespace CourseManager.Infrastructure.Services
             return _employeeRepository.FindByIdWithCourses(employee.Id).Courses;
         }
 
+        public IEnumerable<Course> Teaching(Employee employee)
+        {
+            return _employeeRepository.FindAssociatedCourses(employee);
+        }
+
         public void AddAssociateToCourse(Employee employee, Course course)
         {
              _employeeRepository.AddAssociate(employee, course);
+        }
+
+        public void DeleteAssociateFromCourse(Employee employee, Course course)
+        {
+            _employeeRepository.DeleteAssociate(employee, course);
         }
 
         public void CreateEmployee(Employee employee)

@@ -6,3 +6,12 @@
         <li>@course.Title</li>
     }
 </ul>
+
+<h3>Teaching (Is associated with)</h3>
+
+<ul>
+    @foreach (var course in @ViewBag.Teaching)
+    {
+        <li>@course.Title</li>
+    }
+</ul>

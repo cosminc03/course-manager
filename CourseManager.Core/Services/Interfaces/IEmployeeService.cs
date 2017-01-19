@@ -18,12 +18,16 @@ namespace CourseManager.Core.Services.Interfaces
 
         IEnumerable<Course> GetAllCourses(Employee employee);
 
+        IEnumerable<Course> Teaching(Employee employee);
+
         void AddAssociateToCourse(Employee employee, Course course);
+
+        void DeleteAssociateFromCourse(Employee employee, Course course);
 
         void CreateEmployee(Employee employee);
 
         void UpdateEmployee(Employee employee);
 
-        void DeleteEmployee(Employee employee);
+        void DeleteEmployee(Employee employee);   
     }
 }

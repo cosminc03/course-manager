@@ -50,6 +50,18 @@ namespace CourseManager.Web.Controllers
 
             ViewBag.Associates = _courseService.GetAssociates(ViewBag.Course);
 
+            ViewBag.IsStudent = _userManager.GetRolesAsync(
+                _userManager.GetUserAsync(User).Result
+            ).Result.Contains("Student");
+
+            if (ViewBag.IsStudent)
+            {
+                ViewBag.IsSubscribed = _studentService.IsSubscribedToCourse(
+               new Guid(_userManager.GetUserId(User)),
+               ViewBag.Course
+               );
+            }
+           
             return View();
         }
 
@@ -225,5 +237,55 @@ namespace CourseManager.Web.Controllers
 
             return RedirectToAction("AddAssociate", new { id = id });
         }
+
+        [HttpGet]
+        [Authorize(Roles = "Employee")]
+        public IActionResult DeleteAssociate(Guid id, string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+
+            var employee = _employeeService.GetEmployeeByBaseId(
+               new Guid(_userManager.GetUserId(User))
+               );
+            var owner = _courseService.GetOwner(id);
+
+            if (employee.Id != owner.Id) return RedirectToAction("Profile", "Employee", new { id = employee.BaseId });
+
+            ViewBag.Course = _courseService.GetCourseById(id);
+
+            var model = new CourseAddAssociateViewModel()
+            {
+                AssociateList = new SelectList(_courseService.GetAssociates(ViewBag.Course), "Id", "FirstName")
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Employee")]
+        public ActionResult DeleteAssociate(CourseAddAssociateViewModel model, Guid id, string returnUrl = null)
+        {
+            var employee = _employeeService.GetEmployeeByBaseId(
+               new Guid(_userManager.GetUserId(User))
+               );
+            var owner = _courseService.GetOwner(id);
+
+            if (employee.Id != owner.Id) return RedirectToAction("Profile", "Employee", new { id = employee.BaseId });
+
+            if (ModelState.IsValid)
+            {
+                var associate = _employeeService.GetEmployeeById(new Guid(model.Associate));
+                var course = _courseService.GetCourseById(id);
+
+                _employeeService.DeleteAssociateFromCourse(associate, course);
+
+                return RedirectToAction("Show", "Course", new { id = course.Id });
+            }
+
+            model.AssociateList = new SelectList(_courseService.GetAssociates(ViewBag.Course), "Id", "FirstName");
+
+            return RedirectToAction("AddAssociate", new { id = id });
+        }
+
     }
 }

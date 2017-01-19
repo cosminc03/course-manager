@@ -33,6 +33,8 @@ namespace CourseManager.Web.Controllers
 
             ViewBag.EmployeeCourses = _employeeService.GetAllCourses(ViewBag.Employee);
 
+            ViewBag.Teaching = _employeeService.Teaching(ViewBag.Employee);
+
             return View();
         }
     }

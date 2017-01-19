@@ -25,6 +25,10 @@ namespace CourseManager.Core.Services.Interfaces
 
         void SubscribeCourse(Guid guid, Course course);
 
+        void UnsubscribeCourse(Guid guid, Course course);
+
+        bool IsSubscribedToCourse(Guid guid, Course course);
+
         IEnumerable<Course> GetSubscribedCourses(Guid guid); 
     }
 }

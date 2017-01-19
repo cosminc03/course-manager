@@ -13,5 +13,9 @@ namespace CourseManager.Core.Repositories.Interfaces
         Employee FindByIdWithCourses(Guid id);
 
         void AddAssociate(Employee employee, Course course);
+
+        void DeleteAssociate(Employee employee, Course course);
+
+        IEnumerable<Course> FindAssociatedCourses(Employee employee);
     }
 }

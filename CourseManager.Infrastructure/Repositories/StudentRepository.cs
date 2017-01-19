@@ -36,6 +36,20 @@ namespace CourseManager.Infrastructure.Repositories
             DbManager.SaveChanges();
         }
 
+        public void DeleteCourse(Course course, Student student)
+        {
+            var rel = new StudentCourse()
+            {
+                CourseId = course.Id,
+                Course = course,
+                StudentId = student.Id,
+                Student = student
+            };
+
+            DbManager.StudentCourses.Remove(rel);
+            DbManager.SaveChanges();
+        }
+
         public IEnumerable<Course> FindCourses(Student student)
         {
             var rels = DbManager.StudentCourses
