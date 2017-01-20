@@ -57,5 +57,11 @@ namespace CourseManager.Infrastructure.Repositories
                 .Include(p => p.Course)
                 .Where(p => p.Course.Id == course.Id);
         }
+
+        public IEnumerable<Course> FindAllWithOwners()
+        {
+            return DbManager.Courses
+                .Include(c => c.Owner);
+        }
     }
 }

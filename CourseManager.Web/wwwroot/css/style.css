@@ -12,18 +12,32 @@
 }
 
 #sign-up {
-	padding:15px 120px 15px 0;
+	padding:0px 120px 15px 0;
 }
 
-	#sign-up a{
+	#sign-up a, #sign-up button {
 		font-size: 16px;
 		font-weight: 600;
 		color: #333;
+        text-transform: none!important;
 	}
+
+    #sign-up .btn-link {
+        color: #FFFFFF;
+    }
+
+    #sign-up .btn-link:hover{
+        text-decoration:underline;
+    }
 
 	#sign-up a:hover {
 		text-decoration: underline;
 	}
+    
+    #sign-up>li>a {
+        padding-top: 7px!important;
+        padding-bottom: 7px!important;
+    }
 
 #brand {
 	position: relative;
@@ -63,6 +77,18 @@
 
 .custom-card {
 	box-shadow: 0 2px 5px #e5e5e5;
+}
+
+.table-prof-courses tr td:first-child {
+    width:20px;
+}
+
+.table-prof-courses a {
+    color: #5e5e5e!important;
+}
+
+.table-prof-courses a:hover {
+    color: #333;
 }
 
 #footer {

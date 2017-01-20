@@ -1,6 +1,33 @@
-﻿<ul>
-    @foreach (var emp in @ViewBag.EmployeesList)
-    {
-        <li>@emp.FirstName  @emp.BaseId</li>
-    }
-</ul>
+﻿@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<div class="pm-body clearfix">
+    <ul class="tab-nav tn-justified">
+        <li class="active"><a href="profile-prof.html">All Professors</a></li>
+    </ul>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var emp in @ViewBag.EmployeesList)
+                {
+                    <tr>
+                        <td>
+                            <a asp-controller="Employee" asp-action="Profile"  asp-route-id="@emp.BaseId">
+                                @emp.FirstName @emp.BaseId
+                            </a>
+                        </td>
+                        <td>@emp.LastName</td>
+                        <td>@UserManager.FindByIdAsync(emp.BaseId.ToString()).Result.Email</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

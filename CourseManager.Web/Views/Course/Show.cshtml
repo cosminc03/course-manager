@@ -1,18 +1,101 @@
-﻿<p>Title: @ViewBag.Course.Title</p>
+﻿<div class="pm-body clearfix">
+    <ul class="tab-nav tn-justified">
+        <li class="active"><a href="#">Course Details</a></li>
+    </ul>
 
-@if (@ViewBag.IsStudent) { 
-    <p>Subscribed: @if(@ViewBag.IsSubscribed) { <span>Yes</span> } else { <span>No</span> } </p>
-}
+    <div class="pmb-block m-t-25">
+        <div class="pmbb-header">
+            <h2 class="fw-400">
+                <i class="zmdi zmdi-book m-r-10"></i>
+                @ViewBag.Course.Title
+                @if (ViewBag.IsStudent)
+                {
+                    @if (ViewBag.IsSubscribed)
+                    {
+                        <i class="zmdi zmdi-star-circle"></i>
+                    }
+                }
+            </h2>
 
-<p>Year: @ViewBag.Course.Year</p>
-<p>Semester: @ViewBag.Course.Semester</p>
-<p>Description: @ViewBag.Course.Description</p>
-<p>Owner: @ViewBag.Course.Owner.FirstName - @ViewBag.Course.Owner.LastName</p>
-<p>Associates:</p>
+            <ul class="actions">
+                <li class="dropdown">
+                    <a href="" data-toggle="dropdown">
+                        <i class="zmdi zmdi-more-vert"></i>
+                    </a>
 
-<ul>
-    @foreach (var assoc in @ViewBag.Associates)
-    {
-        <li>@assoc.FirstName  @assoc.LastName</li>
-    }
-</ul>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        @if (ViewBag.IsStudent)
+                        {
+                            @if (ViewBag.IsSubscribed)
+                            {
+                                <li>
+                                    @Html.ActionLink("Unsubscribe", "Unsubscribe", "Course", new { id = ViewBag.Course.Id })
+                                </li>
+                            }
+                            else
+                            {
+                                <li>
+                                    @Html.ActionLink("Subscribe", "Subscribe", "Course", new { id = ViewBag.Course.Id })
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            <li>
+                                @Html.ActionLink("Edit", "Edit", "Course", new { id = ViewBag.Course.Id })
+                            </li>
+
+                             <li>
+                                @Html.ActionLink("Delete", "Delete", "Course", new { id = ViewBag.Course.Id })
+                             </li>
+                        }
+                        <li>
+                            <a asp-controller="Course" asp-action="Students" asp-route-id="@ViewBag.Course.Id">Subscribed Students</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="pmbb-body p-l-30">
+            <div class="pmbb-view">
+                <div class="panel-group" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-collapse">
+                        <div class="panel-heading" role="tab" id="headingTwo">
+                            <h4 class="panel-title">
+                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion"
+                                   href="#collapseDescriptionCourse1" aria-expanded="false" aria-controls="collapseDescriptionCourse1">
+                                    <h4 class="fw-100 m-0">Description</h4>
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseDescriptionCourse1" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                            <div class="panel-body">
+                                @ViewBag.Course.Description
+                            </div>
+                        </div>
+                        <a asp-area="" asp-controller="Course" asp-action="Posts" asp-route-id="@ViewBag.Course.Id" class="btn bgm-orange waves-effect m-t-25">Posts</a>
+                    </div>
+                </div>
+            </div>
+            <div class="pmbb-view">
+                <h4 class="fw-100 btn btn-default waves-effect">Year @ViewBag.Course.Year</h4>
+            </div>
+            <div class="pmbb-view">
+                <h4 class="fw-100 btn btn-default waves-effect">Semester @ViewBag.Course.Semester</h4>
+            </div>
+            <div class="pmbb-view">
+                <h4 class="fw-100">Lecturer</h4>
+                <strong>
+                    <a asp-controller="Employee" asp-action="Profile" asp-route-id="@ViewBag.Course.Owner.BaseId" class="btn btn-default waves-effect">@ViewBag.Course.Owner.FirstName @ViewBag.Course.Owner.LastName</a>
+                </strong>
+            </div>
+            <div class="pmbb-view">
+                <h4 class="fw-100">Associate Proffesors</h4>
+                @foreach (var assoc in @ViewBag.Associates)
+                {
+                    <a asp-controller="Employee" asp-action="Profile" asp-route-id="@assoc.BaseId" class="btn btn-default waves-effect">@assoc.FirstName  @assoc.LastName</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>

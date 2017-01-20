@@ -1,8 +1,33 @@
-﻿<h2>Students subscribed to @ViewBag.Course.Title</h2>
+﻿@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
-<ul>
-    @foreach (var student in @ViewBag.Students)
-    {
-        <li>@student.FirstName @student.LastName</li>
-    }
-</ul>
+<div class="pm-body clearfix">
+    <ul class="tab-nav tn-justified">
+        <li class="active"><a href="profile-prof.html">Subscribed Students for Course @ViewBag.Course.Title</a></li>
+    </ul>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var student in @ViewBag.Students)
+                {
+                    <tr>
+                        <td>
+                            <a asp-controller="Student" asp-action="Profile" asp-route-id="@student.BaseId">
+                                @student.FirstName @student.BaseId
+                            </a>
+                        </td>
+                        <td>@student.LastName</td>
+                        <td>@UserManager.FindByIdAsync(student.BaseId.ToString()).Result.Email</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

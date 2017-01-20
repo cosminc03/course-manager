@@ -2,6 +2,13 @@
 @{
     ViewData["Title"] = "Register";
 }
+
+@section stylesheets {
+    <link href="~/vendors/bower_components/bootstrap-select/dist/css/bootstrap-select.css" rel="stylesheet">
+    <link href="~/vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <link href="~/vendors/bower_components/chosen/chosen.css" rel="stylesheet">
+}
+
 <div id="register-page" class="content">
     <div class="row">
         <div class="col-sm-6 col-sm-offset-1">
@@ -60,11 +67,9 @@
                             <span class="input-group-addon">
                                 <i class="zmdi zmdi-calendar"></i>
                             </span>
-                            <div class="fg-line">
-                                <div class="col-xs-3">
-                                    <label asp-for="Email" class="">Date of Birth</label>
-                                    <input asp-for="DateOfBirth" type="date" class="" id="DateOfBirth" />
-                                </div>
+                            <div class="dtp-container fg-line">
+                                <input asp-for="DateOfBirth" type="text" class="form-control date-picker input-sm" id="DateOfBirth" value=""/>
+                                <label asp-for="DateOfBirth" class="fg-label">Date of Birth</label>
                             </div>
                             <span asp-validation-for="DateOfBirth" class="text-danger"></span>
                         </div>
@@ -96,19 +101,17 @@
                                 <i class="zmdi zmdi-account-circle"></i>
                             </span>
                             <div class="fg-line">
-                                <label asp-for="Role">Select Role: </label>
-                                <select asp-for="Role" asp-items="@Model.RoleList"></select>
+                                <select asp-for="Role" asp-items="@Model.RoleList" class="selectpicker"></select>
                             </div>
                             <span asp-validation-for="Role" class="text-danger"></span>
                         </div>
 
-                        <div class="form-group input-group fg-float">
+                        <div class="form-group input-group fg-float optional">
                             <span class="input-group-addon">
                                 <i class="zmdi zmdi-dot-circle"></i>
                             </span>
                             <div class="fg-line">
-                                <label asp-for="Year">Year: </label>
-                                <select asp-for="Year">
+                                <select asp-for="Year" class="selectpicker">
                                     <option value="1">First Year</option>
                                     <option value="2">Second Year</option>
                                     <option value="3">Third Year</option>
@@ -117,13 +120,13 @@
                             <span asp-validation-for="Year" class="text-danger"></span>
                         </div>
 
-                        <div class="form-group input-group fg-float">
+                        <div class="form-group input-group fg-float optional">
                             <span class="input-group-addon">
                                 <i class="zmdi zmdi-accounts"></i>
                             </span>
                             <div class="fg-line">
-                                <label asp-for="Group">Group: </label>
-                                <input asp-for="Group" type="text" value="X0" />
+                                <input asp-for="Group" type="text" value="" class="form-control input-sm" id="Group"/>
+                                <label asp-for="Group" class="fg-label">Group</label>
                             </div>
                             <span asp-validation-for="Group" class="text-danger"></span>
                         </div>
@@ -137,3 +140,22 @@
         </div>
     </div>
 </div>
+
+@section scripts {
+    <script src="~/vendors/bower_components/moment/min/moment.min.js"></script>
+    <script src="~/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
+    <script src="~/vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#Role').change(function () {
+                var value = $(this).val();
+
+                if (value.toLowerCase() === 'employee') {
+                    $('.optional').hide();
+                } else {
+                    $('.optional').show();
+                }
+            });
+        });
+    </script>
+}

@@ -32,6 +32,11 @@ namespace CourseManager.Infrastructure.Services
             return _courseRepository.FindAll();
         }
 
+        public IEnumerable<Course> GetAllCoursesWithOwners()
+        {
+            return _courseRepository.FindAllWithOwners();
+        }
+
         public Course GetCourseById(Guid guid)
         {
             return _courseRepository.FindById(guid);

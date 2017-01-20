@@ -7,20 +7,58 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    <form asp-area="" asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
-        <ul class="nav navbar-nav navbar-right">
-            <li> 
-                <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
-            </li>
-            <li>
-                <button type="submit" class="btn btn-link navbar-btn navbar-link">Log off</button>
-            </li>
-        </ul>
-    </form>
+    <ul id="sign-up" class="hi-menu nav navbar-nav navbar-right">
+        <li class="dropdown">
+            <a data-toggle="dropdown" href=""><i class="him-icon zmdi zmdi-more-vert"></i></a>
+            <ul class="dropdown-menu dm-icon pull-right">
+                <li class="hidden-xs">
+                    @if (UserManager.GetRolesAsync(UserManager.GetUserAsync(User).Result).Result.Contains("Student"))
+                    {
+                        <a asp-area="" asp-controller="Home" asp-action="Index">My Profile</a>
+                    }
+                    else
+                    {
+                        <a asp-area="" asp-controller="Employee" asp-action="Profile" asp-route-id="@UserManager.GetUserId(User)">My Profile</a>
+                    }
+                </li>
+                @if (!UserManager.GetRolesAsync(UserManager.GetUserAsync(User).Result).Result.Contains("Student"))
+                {
+                    <li>
+                        <a asp-area="" asp-controller="Employee" asp-action="Posts" asp-route-id="@UserManager.GetUserId(User)">My Posts</a>
+                    </li>
+                    <li>
+                        <a asp-area="" asp-controller="Post" asp-action="Create">Create Post</a>
+                    </li>
+                    <li>
+                        <a asp-area="" asp-controller="Course" asp-action="Create">Create Course</a>
+                    </li>
+                }
+                <li>
+                    <a asp-area="" asp-controller="Course" asp-action="Index">All Courses</a>
+                </li>
+                @if (UserManager.GetRolesAsync(UserManager.GetUserAsync(User).Result).Result.Contains("Student"))
+                {
+                    <li>
+                        <a asp-area="" asp-controller="Student" asp-action="Index">Subscribed Courses</a>
+                    </li>
+                    <li>
+                        <a asp-area="" asp-controller="Course" asp-action="News">News</a>
+                    </li>
+                }
+
+            </ul>
+        </li>
+        
+        <li>
+            <form asp-area="" asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
+                <button type="submit" class="btn bgm-blue btn-link navbar-btn navbar-link">Log off</button>
+            </form>
+        </li>
+    </ul>
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
+    <ul id="sign-up" class="nav navbar-nav navbar-right">
         <li><a asp-area="" asp-controller="Account" asp-action="Register">Register</a></li>
         <li><a asp-area="" asp-controller="Account" asp-action="Login">Log in</a></li>
     </ul>
