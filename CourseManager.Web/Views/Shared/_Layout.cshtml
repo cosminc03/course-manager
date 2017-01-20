@@ -35,8 +35,7 @@
             @if (SignInManager.IsSignedIn(User)) {
                 <div class="user-header">
                     <h2 class="text-center">
-                        Malinda Hollaway
-                        <small>Web/UI Developer, Edinburgh, Scotland</small>
+                        @UserManager.GetUserName(User)
                     </h2>
                 </div>
             }

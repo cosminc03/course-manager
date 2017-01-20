@@ -1,105 +1,89 @@
 ﻿@model CourseCreateViewModel
 @{
-    ViewBag.Title = "Edit";
+    ViewData["Title"] = "Course Edit";
 }
 
-<h2>Edit</h2>
+@section stylesheets {
+    <link href="~/vendors/bower_components/bootstrap-select/dist/css/bootstrap-select.css" rel="stylesheet">
+    <link href="~/vendors/bower_components/nouislider/distribute/nouislider.min.css" rel="stylesheet">
+    <link href="~/vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <link href="~/vendors/farbtastic/farbtastic.css" rel="stylesheet">
+    <link href="~/vendors/bower_components/chosen/chosen.css" rel="stylesheet">
+    <link href="~/vendors/summernote/dist/summernote.css" rel="stylesheet">
+}
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    <div class="form-horizontal">
-        <h4>PersonalDetail</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Title, htmlAttributes: new
-       {
-           @class =
-"control-label col-md-2"
-       })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Title, new
-           {
-               htmlAttributes = new
-               { @class = "form-control" }
-           })
-                @Html.ValidationMessageFor(model => model.Title, "", new
-           {
-               @class = "text-danger"
-           })
+<div class="pm-body clearfix">
+    <h2 class="p-l-25 p-t-20 inline-block">Add course</h2>
+
+    <div class="card-body card-padding">
+        <form asp-controller="Course" asp-action="Edit" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal" role="form" novalidate>
+            <div class="form-group">
+                <label asp-for="Title" for="courseTitle" class="col-sm-2 control-label">Title</label>
+                <div class="col-sm-10">
+                    <div class="fg-line">
+                        <input asp-for="Title" type="email" class="form-control" id="courseTitle" placeholder="Title">
+                    </div>
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Year, htmlAttributes: new
-       {
-           @class =
-"control-label col-md-2"
-       })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Year, new
-           {
-               htmlAttributes = new
-               { @class = "form-control" }
-           })
-                @Html.ValidationMessageFor(model => model.Year, "", new
-           {
-               @class
-= "text-danger"
-           })
+
+            <div class="form-group">
+                <label asp-for="Description" for="courseDescription" class="col-sm-2 control-label">Description</label>
+                <div class="col-sm-10">
+                    <div class="fg-line">
+                        <textarea asp-for="Description" class="form-control" id="courseDescription" rows="3" placeholder="Type description for this seminar"></textarea>
+                    </div>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Semester, htmlAttributes: new
-       {
-           @class =
-"control-label col-md-2"
-       })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Semester, new
-           {
-               htmlAttributes = new
-               {
-                   @class = "form-control"
-               }
-           })
-                @Html.ValidationMessageFor(model => model.Semester, "", new
-           {
-               @class =
-"text-danger"
-           })
+
+            <div class="form-group">
+                <label asp-for="Year" for="courseYear" class="col-sm-2 control-label">Year</label>
+                <div class="col-sm-10">
+                    <div class="fg-line">
+                        <select asp-for="Year" class="selectpicker" id="courseYear">
+                            <option value="1">Year I</option>
+                            <option value="2">Year II</option>
+                            <option value="3">Year III</option>
+                        </select>
+                    </div>
+                    <span asp-validation-for="Year" class="text-danger"></span>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new
-       {
-           @class =
-"control-label col-md-2"
-       })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new
-           {
-               htmlAttributes = new
-               {
-                   @class = "form-control"
-               }
-           })
-                @Html.ValidationMessageFor(model => model.Description, "", new
-           {
-               @class =
-"text-danger"
-           })
+
+            <div class="form-group">
+                <label asp-for="Semester" for="courseSemester" class="col-sm-2 control-label">Semester</label>
+                <div class="col-sm-10">
+                    <div class="fg-line">
+                        <select asp-for="Semester" class="selectpicker" id="courseSemester">
+                            <option value="1">Semester I</option>
+                            <option value="2">Semester II</option>
+                        </select>
+                    </div>
+                    <span asp-validation-for="Semester" class="text-danger"></span>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary btn-sm">Edit</button>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>
 
+
+@section scripts {
+    <script src="~/vendors/bower_components/moment/min/moment.min.js"></script>
+    <script src="~/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
+    <script src="~/vendors/bower_components/nouislider/distribute/nouislider.min.js"></script>
+    <script src="~/vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="~/vendors/bower_components/typeahead.js/dist/typeahead.bundle.min.js"></script>
+    <script src="~/vendors/summernote/dist/summernote-updated.min.js"></script>
+
+    <script src="~/vendors/bower_components/chosen/chosen.jquery.js"></script>
+    <script src="~/vendors/fileinput/fileinput.min.js"></script>
+    <script src="~/vendors/input-mask/input-mask.min.js"></script>
+    <script src="~/vendors/farbtastic/farbtastic.min.js"></script>
+}

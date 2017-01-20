@@ -43,9 +43,12 @@
                     <dd>@ViewBag.Employee.DateOfBirth.ToString("dd/mm/yyy")<dd>
                 </dl>
             </div>
-        </div>
-    </div>
 
+            <a asp-area="" asp-controller="Employee" asp-action="Posts" asp-route-id="@ViewBag.Employee.BaseId" class="btn bgm-orange waves-effect m-t-25">Posts</a>
+        </div>
+    
+    </div>
+    
     <div class="pmb-block">
         <div class="pmbb-header">
             <h2><i class="zmdi zmdi-format-list-numbered m-r-10"></i> Courses</h2>

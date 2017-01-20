@@ -13,5 +13,7 @@ namespace CourseManager.Core.Repositories.Interfaces
         IEnumerable<Employee> FindAssociates(Course course);
 
         IEnumerable<Post> FindAllPosts(Course course);
+
+        IEnumerable<Course> FindAllWithOwners();
     }
 }

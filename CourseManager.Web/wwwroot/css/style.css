@@ -33,6 +33,11 @@
 	#sign-up a:hover {
 		text-decoration: underline;
 	}
+    
+    #sign-up>li>a {
+        padding-top: 7px!important;
+        padding-bottom: 7px!important;
+    }
 
 #brand {
 	position: relative;

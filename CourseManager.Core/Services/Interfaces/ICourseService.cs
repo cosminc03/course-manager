@@ -10,6 +10,8 @@ namespace CourseManager.Core.Services.Interfaces
     {
         IEnumerable<Course> GetAllCourses();
 
+        IEnumerable<Course> GetAllCoursesWithOwners();
+
         Course GetCourseById(Guid guid);
 
         Employee GetOwner(Guid guid);

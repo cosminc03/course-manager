@@ -45,7 +45,7 @@ namespace CourseManager.Web.Controllers
                     _userManager.GetUserAsync(User).Result
                 ).Result.Contains("Student");
 
-            foreach (var course in _courseService.GetAllCourses())
+            foreach (var course in _courseService.GetAllCoursesWithOwners())
             {
                 if (!ViewBag.IsStudent)
                 {
@@ -126,12 +126,14 @@ namespace CourseManager.Web.Controllers
             if (ModelState.IsValid)
             {
                 var employee = _employeeService.GetEmployeeByBaseId(
-                new Guid(_userManager.GetUserId(User))
+                    new Guid(_userManager.GetUserId(User))
                 );
+
                 var course = new Course
                 {
                     Title = model.Title,
                     Description = model.Description,
+                    Year = model.Year,
                     Semester = model.Semester,
                     Owner = _employeeService.GetEmployeeByBaseId(
                         new Guid(_userManager.GetUserId(User))
@@ -140,7 +142,7 @@ namespace CourseManager.Web.Controllers
 
                 _courseService.CreateCourse(course);
 
-                return View(model);
+                return RedirectToAction("Profile", "Employee", new { id = employee.BaseId });
             }
 
             return View(model);
@@ -152,6 +154,13 @@ namespace CourseManager.Web.Controllers
         public IActionResult Edit(Guid id)
         {
             var course = _courseService.GetCourseById(id);
+
+            var employee = _employeeService.GetEmployeeByBaseId(
+              new Guid(_userManager.GetUserId(User))
+              );
+            var owner = _courseService.GetOwner(id);
+
+            if (employee.Id != owner.Id) return RedirectToAction("Profile", "Employee", new { id = employee.BaseId });
 
             if (course == null) return RedirectToAction("Index");
 
@@ -171,8 +180,15 @@ namespace CourseManager.Web.Controllers
         // POST: /Course/Edit/{id}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(CourseCreateViewModel model)
+        public ActionResult Edit(CourseCreateViewModel model, Guid id)
         {
+            var employee = _employeeService.GetEmployeeByBaseId(
+             new Guid(_userManager.GetUserId(User))
+             );
+            var owner = _courseService.GetOwner(id);
+
+            if (employee.Id != owner.Id) return RedirectToAction("Profile", "Employee", new { id = employee.BaseId });
+
             if (ModelState.IsValid)
             {
                 Course course = new Course
@@ -180,6 +196,7 @@ namespace CourseManager.Web.Controllers
                     Id = model.Id,
                     Title = model.Title,
                     Description = model.Description,
+                    Year = model.Year,
                     Semester = model.Semester,
                 };
                 _courseService.UpdateCourse(course);

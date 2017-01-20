@@ -4,6 +4,8 @@ using CourseManager.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using CourseManager.Core.Models;
 
 namespace CourseManager.Web.Controllers
 {
@@ -26,9 +28,37 @@ namespace CourseManager.Web.Controllers
 
         public IActionResult Index()
         {
-            ViewBag.Courses = _studentService.GetSubscribedCourses(
-                new Guid(_userManager.GetUserId(User))
-                );
+            var studentId = _userManager.GetUserId(User);
+
+            var listOfCourses = new HashSet<Tuple<Course, bool>>();
+
+            ViewBag.IsStudent = _userManager.GetRolesAsync(
+                    _userManager.GetUserAsync(User).Result
+                ).Result.Contains("Student");
+
+            foreach (var course in _studentService.GetSubscribedCourses(new Guid(_userManager.GetUserId(User))))
+            {
+                course.Owner = _courseService.GetOwner(course.Id);
+
+                if (!ViewBag.IsStudent)
+                {
+                    var tpl = new Tuple<Course, bool>(
+                        course,
+                        false
+                    );
+                    listOfCourses.Add(tpl);
+                }
+                else
+                {
+                    var tpl = new Tuple<Course, bool>(
+                        course,
+                        _studentService.IsSubscribedToCourse(new Guid(studentId), course)
+                    );
+                    listOfCourses.Add(tpl);
+                }
+            }
+
+            ViewBag.Courses = listOfCourses;
 
             return View();
         }
