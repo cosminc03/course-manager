@@ -191,14 +191,13 @@ namespace CourseManager.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                Course course = new Course
-                {
-                    Id = model.Id,
-                    Title = model.Title,
-                    Description = model.Description,
-                    Year = model.Year,
-                    Semester = model.Semester,
-                };
+                var course = _courseService.GetCourseById(id);
+
+                course.Title = model.Title;
+                course.Description = model.Description;
+                course.Year = model.Year;
+                course.Semester = model.Semester;
+
                 _courseService.UpdateCourse(course);
                 //return RedirectToAction("Index");
             }
