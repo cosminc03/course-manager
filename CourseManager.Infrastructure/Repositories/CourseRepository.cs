@@ -50,5 +50,12 @@ namespace CourseManager.Infrastructure.Repositories
 
             return employees;
         }
+
+        public IEnumerable<Post> FindAllPosts(Course course)
+        {
+            return DbManager.Posts
+                .Include(p => p.Course)
+                .Where(p => p.Course.Id == course.Id);
+        }
     }
 }

@@ -14,13 +14,13 @@
     @{
         var counter = 1;
     }
-    @foreach (var item in ViewBag.ListOfCourses)
+    @foreach (var item in ViewBag.listOfCourses)
     {
         var id = "#collapseDescriptionCourse" + counter;
 
         <div class="pmb-block m-t-25">
             <div class="pmbb-header">
-                <h2 class="fw-400"><i class="zmdi zmdi-book m-r-10"></i> @item.Title - @item.Id</h2>
+                <h2 class="fw-400"><i class="zmdi zmdi-book m-r-10"></i> @item.Item1.Title - @item.Item1.Id - @if(item.Item2) { <span> Subbed </span>}</h2>
                 <a href="#" class="btn bgm-orange waves-effect m-t-25">Go to seminars</a>
                 <ul class="actions">
                     <li class="dropdown">
@@ -30,10 +30,10 @@
 
                         <ul class="dropdown-menu dropdown-menu-right">
                             <li>
-                                @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Item1.Id })
                             </li>
                             <li>
-                                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Item1.Id })
                             </li>
                         </ul>
                     </li>
@@ -53,7 +53,7 @@
                             </div>
                             <div id="@id" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
                                 <div class="panel-body">
-                                    @item.Description
+                                    @item.Item1.Description
                                 </div>
                             </div>
                         </div>

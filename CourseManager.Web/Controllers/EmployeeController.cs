@@ -31,9 +31,18 @@ namespace CourseManager.Web.Controllers
         {
             ViewBag.Employee = _employeeService.GetEmployeeByBaseId(id);
 
-            ViewBag.EmployeeCourses = _employeeService.GetAllCourses(ViewBag.Employee);
+            ViewBag.EmployeeCourses = _employeeService.GetOwnedCourses(ViewBag.Employee);
 
             ViewBag.Teaching = _employeeService.Teaching(ViewBag.Employee);
+
+            return View();
+        }
+
+        public IActionResult Posts(Guid id)
+        {
+            var employee = _employeeService.GetEmployeeByBaseId(id);
+
+            ViewBag.Posts = _employeeService.GetPosts(employee);
 
             return View();
         }

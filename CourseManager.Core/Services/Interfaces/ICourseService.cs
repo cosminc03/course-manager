@@ -10,8 +10,6 @@ namespace CourseManager.Core.Services.Interfaces
     {
         IEnumerable<Course> GetAllCourses();
 
-        IEnumerable<string> GetAllCourseNames();
-
         Course GetCourseById(Guid guid);
 
         Employee GetOwner(Guid guid);
@@ -21,6 +19,8 @@ namespace CourseManager.Core.Services.Interfaces
         IEnumerable<Employee> GetAssociates(Course course);
 
         IEnumerable<Employee> GetPossibleAssociates(Course course);
+
+        IEnumerable<Post> GetCoursePosts(Course course);
 
         void CreateCourse(Course course);
 

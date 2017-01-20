@@ -1,0 +1,10 @@
+﻿<h2>@ViewBag.Post.Title</h2>
+<h4>Author: @ViewBag.Post.Owner.FirstName - @ViewBag.Post.Owner.LastName</h4>
+<h4>Course: @ViewBag.Post.Course.Title</h4>
+
+<div>
+    @ViewBag.Post.Content
+</div>
+
+<span>Created: @ViewBag.Post.CreatedAt</span><br/>
+<span>Edited: @ViewBag.Post.UpdatedAt</span>

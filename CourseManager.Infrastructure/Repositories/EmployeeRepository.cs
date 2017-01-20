@@ -15,18 +15,17 @@ namespace CourseManager.Infrastructure.Repositories
 
         public Employee FindByBaseId(Guid baseId)
         {
-            var queryResult = from elem in DbManager.Set<Employee>()
-                              where elem.BaseId == baseId
-                              select elem;
-            return queryResult.FirstOrDefault();
+            return DbManager.Employees
+                .FirstOrDefault(elem => elem.BaseId == baseId);
         }
 
-        public Employee FindByIdWithCourses(Guid id)
+        public IEnumerable<Course> FindOwnedCourses(Employee employee)
         {
             return DbManager.Employees
-                .Where(emp => emp.Id == id)
+                .Where(emp => emp.Id == employee.Id)
                 .Include(emp => emp.Courses)
-                .FirstOrDefault();
+                .FirstOrDefault()
+                .Courses;
         }
 
         public void AddAssociate(Employee employee, Course course)
@@ -69,6 +68,15 @@ namespace CourseManager.Infrastructure.Repositories
                 courses.Add(rel.Course);
 
             return courses;
+        }
+
+        public IEnumerable<Post> FindAllPosts(Employee employee)
+        {
+            return DbManager.Employees
+               .Where(emp => employee.Id == emp.Id)
+               .Include(emp => emp.Posts)
+               .FirstOrDefault()
+               .Posts;
         }
     }
 }

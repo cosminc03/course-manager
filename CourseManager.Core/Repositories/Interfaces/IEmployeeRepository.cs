@@ -10,12 +10,14 @@ namespace CourseManager.Core.Repositories.Interfaces
     {
         Employee FindByBaseId(Guid baseId);
 
-        Employee FindByIdWithCourses(Guid id);
-
         void AddAssociate(Employee employee, Course course);
 
         void DeleteAssociate(Employee employee, Course course);
 
+        IEnumerable<Course> FindOwnedCourses(Employee employee);
+
         IEnumerable<Course> FindAssociatedCourses(Employee employee);
+
+        IEnumerable<Post> FindAllPosts(Employee employee);
     }
 }

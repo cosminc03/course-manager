@@ -3,6 +3,7 @@ using CourseManager.Web.Models.CourseViewModels;
 using CourseManager.Core.Models;
 using CourseManager.Core.Services.Interfaces;
 using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using CourseManager.Web.Models;
@@ -36,7 +37,38 @@ namespace CourseManager.Web.Controllers
 
         public IActionResult Index()
         {
-            ViewBag.ListOfCourses = _courseService.GetAllCourses();
+            //var anonymousTypeVar = new { x = 5, y = 10 };
+            //ViewBag.ListOfCourses = _courseService.GetAllCourses();
+
+            var studentId = _userManager.GetUserId(User);
+
+            var listOfCourses = new HashSet<Tuple<Course, bool>>();
+
+            ViewBag.IsStudent = _userManager.GetRolesAsync(
+                    _userManager.GetUserAsync(User).Result
+                ).Result.Contains("Student");
+
+            foreach (var course in _courseService.GetAllCourses())
+            {
+                if (!ViewBag.IsStudent)
+                {
+                    var tpl = new Tuple<Course, bool>(
+                        course,
+                        false
+                    );
+                    listOfCourses.Add(tpl);
+                }
+                else
+                {
+                    var tpl = new Tuple<Course, bool>(
+                        course,
+                        _studentService.IsSubscribedToCourse(new Guid(studentId), course)
+                    );
+                    listOfCourses.Add(tpl);
+                }
+            }
+
+            ViewBag.ListOfCourses = listOfCourses;
 
             return View();
         }
@@ -61,7 +93,7 @@ namespace CourseManager.Web.Controllers
                ViewBag.Course
                );
             }
-           
+
             return View();
         }
 
@@ -189,6 +221,32 @@ namespace CourseManager.Web.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Student")]
+        public IActionResult Subscribe(Guid id)
+        {
+            var course = _courseService.GetCourseById(id);
+
+            _studentService.SubscribeCourse(
+                new Guid(_userManager.GetUserId(User)),
+                course
+                );
+
+            return RedirectToAction("Index");
+        }
+
+        [Authorize(Roles = "Student")]
+        public IActionResult Unsubscribe(Guid id)
+        {
+            var course = _courseService.GetCourseById(id);
+
+            _studentService.UnsubscribeCourse(
+                new Guid(_userManager.GetUserId(User)),
+                course
+                );
+
+            return RedirectToAction("Index");
+        }
+
         [HttpGet]
         [Authorize(Roles = "Employee")]
         public IActionResult AddAssociate(Guid id, string returnUrl = null)
@@ -286,6 +344,28 @@ namespace CourseManager.Web.Controllers
 
             return RedirectToAction("AddAssociate", new { id = id });
         }
+
+        [Authorize(Roles = "Student")]
+        public IActionResult News()
+        {
+            var student = _studentService.GetStudentByBaseId(
+                new Guid(_userManager.GetUserId(User))
+                );
+
+            ViewBag.News = _studentService.GetRelevantPosts(student);
+
+            return View();
+        }
+
+        public IActionResult Posts(Guid id)
+        {
+            var course = _courseService.GetCourseById(id);
+
+            ViewBag.Posts = _courseService.GetCoursePosts(course);
+
+            return View();
+        }
+
 
     }
 }

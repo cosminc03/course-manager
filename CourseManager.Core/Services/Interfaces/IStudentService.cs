@@ -29,6 +29,8 @@ namespace CourseManager.Core.Services.Interfaces
 
         bool IsSubscribedToCourse(Guid guid, Course course);
 
-        IEnumerable<Course> GetSubscribedCourses(Guid guid); 
+        IEnumerable<Course> GetSubscribedCourses(Guid guid);
+
+        IEnumerable<Post> GetRelevantPosts(Student student);
     }
 }

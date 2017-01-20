@@ -27,11 +27,6 @@ namespace CourseManager.Infrastructure.Services
             _courseRepository.Delete(course);
         }
 
-        public IEnumerable<string> GetAllCourseNames()
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<Course> GetAllCourses()
         {
             return _courseRepository.FindAll();
@@ -70,7 +65,11 @@ namespace CourseManager.Infrastructure.Services
                 );
         }
 
-        
+        public IEnumerable<Post> GetCoursePosts(Course course)
+        {
+            return _courseRepository.FindAllPosts(course);
+        }
+
 
         public void CreateCourse(Course course)
         {

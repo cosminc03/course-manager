@@ -12,10 +12,18 @@ namespace CourseManager.Infrastructure.Services
     public class PostService : IPostService
     {
         private readonly IPostRepository _postRepository;
+        private readonly IEmployeeRepository _employeeRepository;
+        private readonly IStudentRepository _studentRepository;
 
-        public PostService(IPostRepository postRepository)
+        public PostService(
+            IPostRepository postRepository,
+            IEmployeeRepository employeeRepository,
+            IStudentRepository studentRepository
+            )
         {
             _postRepository = postRepository;
+            _employeeRepository = employeeRepository;
+            _studentRepository = studentRepository;
         }
 
         public void CreatePost(Post post)
@@ -23,6 +31,15 @@ namespace CourseManager.Infrastructure.Services
             _postRepository.Create(post);
         }
 
+        public Post GetPostById(Guid guid)
+        {
+            return _postRepository.FindById(guid);
+        }
+
+        public void UpdatePost(Post post)
+        {
+            _postRepository.Update(post);
+        }
         public void DeletePost(Post post)
         {
             _postRepository.Delete(post);
@@ -33,19 +50,14 @@ namespace CourseManager.Infrastructure.Services
             return _postRepository.FindAll();
         }
 
-        public IEnumerable<string> GetAllPostsNames()
+        public Employee GetPostOwner(Post post)
         {
-            throw new NotImplementedException();
+            return _postRepository.FindOwner(post);
         }
 
-        public Post GetPostsById(Guid guid)
+        public Course GetPostCourse(Post post)
         {
-            return _postRepository.FindById(guid);
-        }
-
-        public void UpdatePost(Post post)
-        {
-            _postRepository.Update(post);
+            return _postRepository.FindCourse(post);
         }
     }
 }

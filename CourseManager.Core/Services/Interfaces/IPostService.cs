@@ -8,14 +8,18 @@ namespace CourseManager.Core.Services.Interfaces
 {
     public interface IPostService
     {
+        void CreatePost(Post post);
+
+        Post GetPostById(Guid guid);
+        
+        void UpdatePost(Post post);
+
+        void DeletePost(Post post);
+
         IEnumerable<Post> GetAllPosts();
 
-        IEnumerable<string> GetAllPostsNames();
+        Employee GetPostOwner(Post post);
 
-        Post GetPostsById(Guid guid);
-
-        void CreatePost(Post post);
-        void UpdatePost(Post post);
-        void DeletePost(Post post);
+        Course GetPostCourse(Post post);
     }
 }

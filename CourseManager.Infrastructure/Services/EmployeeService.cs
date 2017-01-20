@@ -1,8 +1,6 @@
 ﻿using CourseManager.Core.Services.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using CourseManager.Core.Models;
 using CourseManager.Core.Repositories.Interfaces;
 
@@ -19,14 +17,19 @@ namespace CourseManager.Infrastructure.Services
             _employeeRepository = employeeRepository;
         }
 
-        public IEnumerable<Course> GetAllCourses(Employee employee)
+        public IEnumerable<Course> GetOwnedCourses(Employee employee)
         {
-            return _employeeRepository.FindByIdWithCourses(employee.Id).Courses;
+            return _employeeRepository.FindOwnedCourses(employee);
         }
 
         public IEnumerable<Course> Teaching(Employee employee)
         {
             return _employeeRepository.FindAssociatedCourses(employee);
+        }
+
+        public IEnumerable<Post> GetPosts(Employee employee)
+        {
+            return _employeeRepository.FindAllPosts(employee);
         }
 
         public void AddAssociateToCourse(Employee employee, Course course)

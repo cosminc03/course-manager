@@ -1,8 +1,6 @@
 ﻿using CourseManager.Core.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CourseManager.Core.Services.Interfaces
 {
@@ -16,9 +14,11 @@ namespace CourseManager.Core.Services.Interfaces
 
         Employee GetEmployeeByBaseId(Guid baseId);
 
-        IEnumerable<Course> GetAllCourses(Employee employee);
+        IEnumerable<Course> GetOwnedCourses(Employee employee);
 
         IEnumerable<Course> Teaching(Employee employee);
+
+        IEnumerable<Post> GetPosts(Employee employee);
 
         void AddAssociateToCourse(Employee employee, Course course);
 

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using CourseManager.Core.Models;
 using CourseManager.Core.Repositories.Interfaces;
 using CourseManager.Core.Services.Interfaces;
@@ -11,10 +10,14 @@ namespace CourseManager.Infrastructure.Services
     public class StudentService : IStudentService
     {
         private readonly IStudentRepository _studentRepository;
+        private readonly ICourseRepository _courseRepository;
 
-        public StudentService(IStudentRepository studentRepository)
+        public StudentService(
+            IStudentRepository studentRepository,
+            ICourseRepository courseRepository)
         {
             _studentRepository = studentRepository;
+            _courseRepository = courseRepository;
         }
 
         public void CreateStudent(Student student)
@@ -55,6 +58,21 @@ namespace CourseManager.Infrastructure.Services
             var student = _studentRepository.FindByBaseId(guid);
 
             return _studentRepository.FindCourses(student);
+        }
+
+        public IEnumerable<Post> GetRelevantPosts(Student student)
+        {
+            var courses = _studentRepository.FindCourses(student);
+
+            var relevantPosts = new List<Post>();
+
+            foreach (var course in courses)
+            {
+                var temp = _courseRepository.FindAllPosts(course);
+                relevantPosts = relevantPosts.Concat(temp).ToList();
+            }
+
+            return relevantPosts.OrderByDescending(p => p.CreatedAt);
         }
 
         public IEnumerable<Student> GetAllStudents()

@@ -32,31 +32,5 @@ namespace CourseManager.Web.Controllers
 
             return View();
         }
-
-        [Authorize(Roles = "Student")]
-        public IActionResult Subscribe(Guid id)
-        {
-            var course = _courseService.GetCourseById(id);
-
-            _studentService.SubscribeCourse(
-                new Guid(_userManager.GetUserId(User)),
-                course
-                );
-
-            return RedirectToAction("Index");
-        }
-
-        [Authorize(Roles = "Student")]
-        public IActionResult Unsubscribe(Guid id)
-        {
-            var course = _courseService.GetCourseById(id);
-
-            _studentService.UnsubscribeCourse(
-                new Guid(_userManager.GetUserId(User)),
-                course 
-                );
-
-            return RedirectToAction("Index");
-        }
     }
 }

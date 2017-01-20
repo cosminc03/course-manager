@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CourseManager.Web.Models.PostViewModels
 {
@@ -15,12 +16,7 @@ namespace CourseManager.Web.Models.PostViewModels
         [Required]
         public string Content { get; set; }
 
-        [Required]
-        public DateTime CreatedAt { get; set; }
-
-        [Required]
-        public DateTime UpdatedAt { get; set; }
-
-        public Guid Id { get; set; }
+        public string Course { get; set; }
+        public SelectList CourseList { get; set; }
     }
 }
