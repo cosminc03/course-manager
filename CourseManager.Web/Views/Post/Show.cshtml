@@ -1,10 +1,17 @@
-﻿<h2>@ViewBag.Post.Title</h2>
-<h4>Author: @ViewBag.Post.Owner.FirstName - @ViewBag.Post.Owner.LastName</h4>
-<h4>Course: @ViewBag.Post.Course.Title</h4>
+﻿<div class="pm-body clearfix">
+    <h2 class="p-l-25 p-t-20 inline-block">@ViewBag.Post.Title</h2>
 
-<div>
-    @ViewBag.Post.Content
+    <div class="card-body card-padding">
+        <h4>Author: @ViewBag.Post.Owner.FirstName - @ViewBag.Post.Owner.LastName</h4>
+        <h4>Course: @ViewBag.Post.Course.Title</h4>
+        
+        <br/>
+        <div style="font-size: 18px">
+            @ViewBag.Post.Content
+        </div>
+        <br/>
+        <br/>
+        <span>Created: @ViewBag.Post.CreatedAt</span><br />
+        <span>Edited: @ViewBag.Post.UpdatedAt</span>
+    </div>
 </div>
-
-<span>Created: @ViewBag.Post.CreatedAt</span><br/>
-<span>Edited: @ViewBag.Post.UpdatedAt</span>

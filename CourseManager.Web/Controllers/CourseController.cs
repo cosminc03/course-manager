@@ -227,8 +227,7 @@ namespace CourseManager.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
-
-            Course course = _courseService.GetCourseById(id);
+            var course = _courseService.GetCourseById(id);
             _courseService.DeleteCourse(course);
 
             return RedirectToAction("Index");

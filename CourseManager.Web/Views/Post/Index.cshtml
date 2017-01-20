@@ -1,6 +1,12 @@
-﻿@foreach (var item in ViewBag.ListOfPosts)
-{
-    <li>
-        @item.Title - @item.Id
-    </li>
-}
+﻿<div class="pm-body clearfix">
+    <h2 class="p-l-25 p-t-20 inline-block">Index of posts</h2>
+
+    <div class="card-body card-padding">
+        @foreach (var item in ViewBag.ListOfPosts)
+        {
+        <li>
+            <a asp-area="" asp-controller="Post" asp-action="Show" asp-route-id="@item.Id">@item.Title</a>
+        </li>
+        }
+    </div>
+</div>

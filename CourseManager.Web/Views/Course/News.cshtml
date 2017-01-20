@@ -1,8 +1,14 @@
-﻿<ul>
-    @foreach (var item in @ViewBag.News)
-    {
-        <li>
-            @item.Title
-        </li>
-    }
-</ul>
+﻿<div class="pm-body clearfix">
+    <h2 class="p-l-25 p-t-20 inline-block">Relevant Posts</h2>
+
+    <div class="card-body card-padding">
+        <ul>
+            @foreach (var item in @ViewBag.News)
+            {
+                <li>
+                    <a asp-area="" asp-controller="Post" asp-action="Show" asp-route-id="@item.Id">@item.Title - @item.UpdatedAt</a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
