@@ -11,17 +11,6 @@
             <a href="#">Home</a>
         </li>
     </ul>
-
-    @if (SignInManager.IsSignedIn(User))
-    {
-        if (UserManager.GetRolesAsync(UserManager.GetUserAsync(User).Result).Result.Contains("Employee"))
-        {
-            <a asp-area="" asp-controller="Course" asp-action="Create" data-toggle="tooltip" title="Create new Course" class="btn bgm-lightgreen btn-icon waves-effect waves-circle waves-float pull-right m-t-15 m-r-40">
-                <i class="zmdi zmdi-plus"></i>
-            </a>
-        }
-    }
-
         
     <h1 style="text-align: center; margin-top: 50px; color:#2196F3">Welcome to InfoBucket !</h1>
 

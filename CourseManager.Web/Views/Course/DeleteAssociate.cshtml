@@ -1,7 +1,14 @@
 ﻿@model CourseAddAssociateViewModel
 
-<form asp-controller="Course" asp-action="DeleteAssociate" asp-route-returnurl="@ViewData["returnUrl"]" method="post">
-    <select asp-for="Associate" asp-items="@Model.AssociateList"></select>
+<div class="pm-body clearfix">
+    <h2 class="p-l-25 p-t-20 inline-block">Delete associate from @ViewBag.Course.Title</h2>
 
-    <button type="submit">Delete</button>
-</form>
+    <div class="card-body card-padding">
+        <form asp-controller="Course" asp-action="DeleteAssociate" asp-route-returnurl="@ViewData["returnUrl"]" method="post">
+            <select asp-for="Associate" asp-items="@Model.AssociateList"></select>
+            <br/>
+            <br/>
+            <button type="submit">Delete</button>
+        </form>
+    </div>
+</div>

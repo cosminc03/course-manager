@@ -45,9 +45,15 @@
                                 @Html.ActionLink("Edit", "Edit", "Course", new { id = ViewBag.Course.Id })
                             </li>
 
-                             <li>
+                            <li>
                                 @Html.ActionLink("Delete", "Delete", "Course", new { id = ViewBag.Course.Id })
-                             </li>
+                            </li>
+                            <li>
+                                @Html.ActionLink("Add Associate", "AddAssociate", "Course", new { id = ViewBag.Course.Id })
+                            </li>
+                            <li>
+                                @Html.ActionLink("Delete Associate", "DeleteAssociate", "Course", new { id = ViewBag.Course.Id })
+                            </li>
                         }
                         <li>
                             <a asp-controller="Course" asp-action="Students" asp-route-id="@ViewBag.Course.Id">Subscribed Students</a>

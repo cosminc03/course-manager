@@ -1,7 +1,15 @@
 ﻿@model CourseAddAssociateViewModel
 
-<form asp-controller="Course" asp-action="AddAssociate" asp-route-returnurl="@ViewData["returnUrl"]" method="post">
-    <select asp-for="Associate" asp-items="@Model.AssociateList"></select>
+<div class="pm-body clearfix">
+    <h2 class="p-l-25 p-t-20 inline-block">Add associate to @ViewBag.Course.Title</h2>
 
-    <button type="submit">Submit</button>
-</form>
+    <div class="card-body card-padding">
+
+        <form asp-controller="Course" asp-action="AddAssociate" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal" role="form" novalidate>
+            <select asp-for="Associate" asp-items="@Model.AssociateList" class="selectpicker"></select>
+            <br />
+            <br/>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</div>
