@@ -43,7 +43,7 @@
             <div class="card custom-card" id="profile-main">
                 @if (SignInManager.IsSignedIn(User))
                 {
-                    //@Html.Partial("_ProfileSideBar")
+                    @Html.Partial("_ProfileSideBar")
                 }
                 @RenderBody()
             </div>

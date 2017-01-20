@@ -37,9 +37,6 @@ namespace CourseManager.Web.Controllers
 
         public IActionResult Index()
         {
-            //var anonymousTypeVar = new { x = 5, y = 10 };
-            //ViewBag.ListOfCourses = _courseService.GetAllCourses();
-
             var studentId = _userManager.GetUserId(User);
 
             var listOfCourses = new HashSet<Tuple<Course, bool>>();
